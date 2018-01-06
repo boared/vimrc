@@ -1,5 +1,13 @@
+" This file is divided in the following sessions:
+" 1. Configurations
+" 2. Theme
+" 3. Key Mapping
+" 4. Functions
+" 5. Experiments (things that I'm still testing or playing around)
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                                                         "TEXT OPTIONS"
+                                                           "CONFIGURATIONS"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax highlighting
 syntax on
@@ -19,6 +27,15 @@ set expandtab " Insert spaces instead of tabs, if what you want is tab, type <c-
 
 " Allow backspace to work properly in Insert mode (see :help 'backspace')
 set backspace=indent,eol,start
+
+" Configure netrw directory browser
+let g:netrw_sort_by = "exten"
+let g:netrw_sizestyle = "h" " Show file size in human readable format
+let g:netrw_banner = 0 " You can still show the banner by pressing I
+let g:netrw_liststyle = 1 
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -52,7 +69,7 @@ nnoremap <c-y> viwu
 inoremap <c-y> <esc>viwui
 
 " Open you .vimrc to edit
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
 
 " Source your .vimrc file so changes take effect immediately
 nnoremap <leader>sv :so $MYVIMRC<cr>
@@ -75,29 +92,21 @@ nnoremap <leader>ls :ls<cr>
 
 " Go to next buffer
 nnoremap <leader>bn :bn<cr>
+
 " Go to previous  buffer
 nnoremap <leader>bp :bp<cr>
 
+" Delete current buffer
+nnoremap <leader>bd :bd<cr>
+
+" Toggle directory browser
+nnoremap <leader>ex :call ToggleNetrw()<cr>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                                                       "EXPERIMENTS"
+                                                        "FUNCTIONS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Configure netrw directory browser
-let g:netrw_banner = 0
-let g:netrw_liststyle = 1 
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-
-
-" Open netrw directory explorer when Vim starts up
-"augroup ProjectDrawer
-"  autocmd!
-"  autocmd VimEnter * :Vexplore
-"augroup END
-
-" This function replaces :Lexplore toggle which is bugged. :Lexplore might show multiple trees
+" This function replaces :Lexplore toggle which is bugged. :Lexplore might show multiple explorers
 " when you change dir and trigger toggle again.
 " source: https://www.reddit.com/r/vim/comments/6jcyfj/toggle_lexplore_properly/djdmsal/
 let g:NetrwIsOpen=0
@@ -118,6 +127,15 @@ function! ToggleNetrw()
     endif
 endfunction
 
-" File browser toggle
-nnoremap <leader>ex :call ToggleNetrw()<cr>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                                                       "EXPERIMENTS"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Replace word with whatever is in register 0 (last yanked text)
+nnoremap <leader>r dw"0P
+
+" Delete from the cursor to the beginning of line
+nnoremap <leader>db v0d
+
+" Delete from the cursor to the end of line
+nnoremap <leader>df v$hd
