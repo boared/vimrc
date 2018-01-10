@@ -57,7 +57,6 @@ set guioptions-=r " Remove right-hand scroll bar
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme less
 
-
 function! OverridenHighlights() abort
     " Color scheme for Netrw directory browser
     "highlight netrwCompress term=NONE cterm=NONE gui=NONE ctermfg=10 guifg=green  ctermbg=0 guibg=black
@@ -202,6 +201,9 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use <cWORD> to expand paths when using gx mapping. It'll make it expand full
+" URLs including its parameters (e.g. www.example.com/foo?bar=0)
+let g:netrw_gx="<cWORD>"
 
 " Color scheme for statusline
 highlight slNormal   term=none cterm=none ctermfg=black ctermbg=lightgrey gui=none guifg=Black guibg=LightGrey
@@ -266,3 +268,10 @@ set statusline+=%-50(\ %l,%v\ %p%%%)
 " example)
 "nnoremap <leader>r dw"0P
 nnoremap <leader>r :%s/<c-r><c-a>/
+
+" TODO:
+" . nice way to scroll up/down pages
+" . find a way to make yanked text go to "* register (clipboard)
+" . search the occurrence of a text in "all files" (all files == all buffers? all files == all files inside a root dir?)
+" . have the concept of a project (like intellij project, netbeans project, whatever)
+
