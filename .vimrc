@@ -51,11 +51,40 @@ set guioptions-=m " Remove menu bar
 set guioptions-=L " Remove left-hand scroll bar
 set guioptions-=r " Remove right-hand scroll bar
 
+" Custom status line
+set statusline=
+set statusline+=%#slNormal#
+set statusline+=%(%{expand('%:t')}%) " File name
+set statusline+=\  " Separator
+set statusline+=%#slModified#
+set statusline+=%m " [+] if file was modified
+set statusline+=%#slNormal#
+set statusline+=%r " [RO] if file is read-only
+set statusline+=[buffer\ #%n] " Buffer number
+set statusline+=%= " Start right alignment
+set statusline+=[%{HumanReadableFileSize()}] " Filesize
+set statusline+=%-50(\ %l,%v\ %p%%%)
+
+" Use <cWORD> to expand paths when using gx mapping. It'll make it expand full
+" URLs including its parameters (e.g. www.example.com/foo?bar=0). Be aware
+" that here is side-effects.
+let g:netrw_gx="<cWORD>"
+
+" No beeps at all
+set visualbell
+set t_vb=
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "COLOR SCHEME"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme less
+
+" Color scheme for statusline
+highlight slNormal   term=none cterm=none ctermfg=black ctermbg=lightgrey gui=none guifg=Black guibg=LightGrey
+highlight slModified cterm=bold ctermfg=lightgrey ctermbg=red gui=bold guifg=LightGrey guibg=Red
+highlight slGitClean cterm=bold ctermfg=lightgrey ctermbg=green gui=bold guifg=LightGrey guibg=Green
+highlight slGitDirty cterm=bold ctermfg=lightgrey ctermbg=red gui=bold guifg=LightGrey guibg=Red
 
 function! OverridenHighlights() abort
     " Color scheme for Netrw directory browser
@@ -79,11 +108,10 @@ augroup OverridenColors
 augroup END
 
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "KEY MAPPING"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set a prefix key for commands.
+" Prefix key for commands.
 let mapleader=","
 
 " Duplicate line/selection
@@ -134,11 +162,12 @@ nnoremap <leader>bp :bp<cr>
 " Go to alternate file
 nnoremap <leader>af <c-^>
 
+" Yank to clipboard instead of "0
+vnoremap <leader>cb "*y
+nnoremap <leader>cb "*yy
+
 " Delete current buffer
 nnoremap <leader>bd :bd<cr>
-
-" Toggle directory browser
-nnoremap <leader>ex :call ToggleNetrw()<cr>
 
 " Delete from the cursor to the beginning of line
 nnoremap <leader>db v0d
@@ -149,12 +178,18 @@ nnoremap <leader>df v$hd
 " Sort selection.
 xnoremap <leader>s :'<,'>sort<cr>
 
+" Toggle directory browser
+nnoremap <leader>ex :call ToggleNetrw()<cr>
+
 " Toggle line number. Useful when selecting a block of text with the mouse and
 " want to avoid copy line numbers.
-nnoremap <leader>tn :set number!<cr>
+nnoremap <leader>tn :set number! number?<cr>
 
 " Toggle line wrap
-nnoremap <leader>tw :set wrap!<cr>
+nnoremap <leader>tw :set wrap! wrap?<cr>
+
+" Toggle search highlight
+nnoremap <space> :set hlsearch! hlsearch?<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -201,36 +236,16 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use <cWORD> to expand paths when using gx mapping. It'll make it expand full
-" URLs including its parameters (e.g. www.example.com/foo?bar=0)
-let g:netrw_gx="<cWORD>"
 
-" Color scheme for statusline
-highlight slNormal   term=none cterm=none ctermfg=black ctermbg=lightgrey gui=none guifg=Black guibg=LightGrey
-highlight slModified cterm=bold ctermfg=lightgrey ctermbg=red gui=bold guifg=LightGrey guibg=Red
-highlight slGitClean cterm=bold ctermfg=lightgrey ctermbg=green gui=bold guifg=LightGrey guibg=Green
-highlight slGitDirty cterm=bold ctermfg=lightgrey ctermbg=red gui=bold guifg=LightGrey guibg=Red
+" Replace word with whatever is in register 0 (last yanked text)
+" TODO: need to improve this (go to next occurrence after replacement for
+" example)
+"nnoremap <leader>r dw"0P
+nnoremap <leader>r :%substitute/<c-r><c-a>//cg<left><left><left>
 
-" Custom status line
-set statusline=
-set statusline+=%#slNormal#
-set statusline+=%(%{expand('%:t')}%) " File name
-set statusline+=\  " Separator
-set statusline+=%#slModified#
-set statusline+=%m " [+] if file was modified
-set statusline+=%#slNormal#
-set statusline+=%r " [RO] if file is read-only
-set statusline+=[buffer\ #%n] " Buffer number
-set statusline+=%= " Start right alignment
-""set statusline+=%{StatusLineGitHighlight(expand('%:h'))}
-""set statusline+=%{GitStatus(expand('%:h'))==?'clean'? %#slNormal# : %#slNormal#}
-"set statusline+=[%{GitBranch(expand('%:h'))}] 
-"set statusline+=%#slNormal#
-set statusline+=[%{HumanReadableFileSize()}] " Filesize
-set statusline+=%-50(\ %l,%v\ %p%%%)
-"set statusline+=[byte\ pos:\ 0x%O]
-"set statusline+=[char\ vAalue:\ 0x%b]
-
+" Move between tabs (only works on gvim)
+nnoremap <c-tab> gt
+nnoremap <s-c-tab> gT
 
 "" Get current branch name if path contains a git repo
 "function! GitBranch(path)
@@ -263,15 +278,18 @@ set statusline+=%-50(\ %l,%v\ %p%%%)
 "    endif
 "endfunction
 
-" Replace word with whatever is in register 0 (last yanked text)
-" TODO: need to improve this (go to next occurrence after replacement for
-" example)
-"nnoremap <leader>r dw"0P
-nnoremap <leader>r :%s/<c-r><c-a>/
 
 " TODO:
 " . nice way to scroll up/down pages
-" . find a way to make yanked text go to "* register (clipboard)
 " . search the occurrence of a text in "all files" (all files == all buffers? all files == all files inside a root dir?)
 " . have the concept of a project (like intellij project, netbeans project, whatever)
 
+" SMALL TUTS
+" <c-r><register_name> in insert or command mode paste the content of given register
+" :3,15move 40 " Move the content of lines 3 through 15 to bellow line 40
+" :3,15copy 40 " Copy the content of lines 3 through 15 to bellow line 40
+" :let @/='Text'  " Write to register /
+" in normal mode put the cursor over any word, press * to search this exact word forward and # to search it backward. g* and g# for non-exact word
+" in normal mode with the cursor over any word, typ / <c-r><c-w> to copy the word to the command line
+" gd " Go to local declaration of variable under cursor
+" gD " Go to global declaration of variable under cursor
