@@ -4,7 +4,74 @@
 " 3. Color Scheme
 " 4. Key Mapping
 " 5. Functions
-" 6. Experiments (things that I'm still testing or playing around)
+" 6. Mini Tutorials
+" 7. Experiments (things that I'm still testing or playing around)
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                                                       "PLUGINS"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call plug#begin('~/.local/share/nvim/plugged')
+
+" Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
+Plug 'rust-lang/rust.vim'
+
+" Coc is an intellisense engine for vim8 & neovim
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+
+" Syntax checking hacks for vim (:help syntastic)
+Plug 'vim-syntastic/syntastic'
+
+" An Interface to WEB APIs.
+Plug 'mattn/webapi-vim'
+
+" Text outlining and task management for Vim based on Emacs' Org-Mode
+Plug 'jceb/vim-orgmode'
+
+" Use CTRL-A/CTRL-X to increment dates, times, and more (orgmode related)
+Plug 'tpope/vim-speeddating'
+
+" Define a different filetype syntax on regions of a buffer (orgmode related)
+Plug 'inkarkat/vim-SyntaxRange'
+
+" Calendar vimscript (orgmode related)
+Plug 'mattn/calendar-vim'
+
+" Univeral Text Linking - Execute URLs, footnotes, open emails, organize ideas (orgmode related)
+Plug 'vim-scripts/utl.vim'
+
+" repeat.vim: enable repeating supported plugin maps with "." (orgmode related)
+Plug 'tpope/vim-repeat'
+
+" Vim plugin that displays tags in a window, ordered by scope (orgmode related)
+Plug 'majutsushi/tagbar'
+
+" Lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline'
+
+" Themes for vim-airline (:help airline)
+Plug 'vim-airline/vim-airline-themes'
+
+" A git wrapper so awesome, it should be illegal
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
+
+" rust.vim settings
+let g:rustfmt_autosave = 1
+
+" syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" vim-airline settings
+let g:airline_theme='dark'
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -277,8 +344,68 @@ endfunction
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                                                      "MINI TUTORIALS"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" # Moving around (NORMAL mode):
+"   e Move to the end of a word.
+"   w Move forward to the beginning of a word.
+"   3w Move forward three words.
+"   W Move forward a WORD (any non-whitespace characters).
+"   b Move backward to the beginning of a word.
+"   3b Move backward three words.
+"   $ Move to the end of the line.
+"   0 Move to the beginning of the line.
+"   ^ Move to the first non-blank character of the line.
+"   ) Jump forward one sentence.
+"   ( Jump backward one sentence.
+"   } Jump forward one paragraph.
+"   { Jump backward one paragraph.:
+"   j Jump forward one line.
+"   k Jump backward one line.
+"   H Jump to the top of the screen.
+"   M Jump to the middle of the screen.
+"   L Jump to the bottom of the screen.
+"   10<PageUp> or 10<CTRL-B> Move 10 pages up.
+"   5<PageDown> or 5<CTRL-F> Move 5 pages down.
+"   G Jump to end of file.
+"   1G Jump to beginning of file (same as gg).
+"   50G Jump to line 50.
+"   mx Set mark x at the current cursor position.
+"   'x Jump to the beginning of the line of mark x.
+"   `x Jump to the cursor position of mark x.
+"   '' Return to the line where the cursor was before the latest jump. (Two single quotes.)
+"   `` Return to the cursor position before the latest jump (undo the jump). (Two back ticks. This is above the Tab key on some keyboards.)
+"   '. Jump to the last-changed line.
+"   % Jump to corresponding item, e.g. from an open brace to its matching closing brace. See Moving to matching braces for more.
+
+" # Registers:
+"   <c-r><register_name> In insert or command mode paste the content of given register
+"   :let @/='Text'  Write 'Text' to register /
+
+" # Editing:
+"   :3,15move 40 Move the content of lines 3 through 15 to bellow line 40
+"   :3,15copy 40 Copy the content of lines 3 through 15 to bellow line 40
+"   copy word under cursor to command line: in normal mode with the cursor over any word, type / or : then <c-r><c-w>
+"   <c-n> Autocomplete
+"   <c-a> Increment a number
+"   <c-x> Decrement a number
+"   cc Delete a line and put the cursor in the beginning in edit mode
+"   C delete all at right side of the cursor and change to edit mode
+"   cw or ciw Replace a word
+"   ci" Delete everything inside quotes and put in edit mode
+"   Lexplore scp://<host>//home/user/ Open remote folder from inside vim
+"   edit scp://<host>//home/user/test.txt Open remote file from inside vim 
+
+" # Macros:
+"   q<letter> start macro recording. Press q to stop recording. To execute the macro n times, type <number>@<letter>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Remove automatic line breaker
+set formatoptions-=tc
 
 " Search in all files that match extension of current file from the current dir, recursively for the word under cursor
 nnoremap <leader>S :execute 'lvimgrep /\<<c-r><c-w>\>/j ./**/*.' . expand('%:e')<cr>:lwindow<cr>
@@ -288,6 +415,13 @@ nnoremap <leader>a <c-w>10<
 nnoremap <leader>d <c-w>10>
 nnoremap <leader>s <c-w>10-
 nnoremap <leader>w <c-w>10+
+
+" clang-format tool
+nnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
+vnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
+"inoremap <leader>f <esc>:pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr><i>
+
+nnoremap <F8> :TagbarToggle<CR>
 
 " Draw a vertical line at specified column (will make screen redrawing slower)
 set colorcolumn=120
@@ -311,27 +445,18 @@ set textwidth=120
 " :let @/='Text'  " Write to register /
 " search for word under cursor: in normal mode press * to search forward and # to search backward. g* and g# for non-exact word
 " copy word under cursor to command line: in normal mode with the cursor over any word, type / or : then <c-r><c-w>
+" search for word under cursor: in normal mode press * to search forward and # to search backward. g* and g# for non-exact word
 " gd " Go to local declaration of variable under cursor
 " gD " Go to global declaration of variable under cursor
 " to save your current session (open tabs, buffer, etc.) type :mksession session_name.vim (session_name.vim will be saved in the current folder)
 " use source <path>/session_name.vim to restore your session
 " m<char> mark current cursor position with letter <char>. '<char> go back to marked line beginning, `<char> go back to marked cursor position
-" <c-n> autocomplete
 " :grep /<pattern>/gj ./**/*.py search recursively in the current dir in all python files for occurrence of <pattern>
 " K in normal mode with the cursor over a word run a program to lookup the word under the cursor.
-" ci" means change (c) inside quotes (i"), it will delete everything inside quotes and put in edit mode
 " show mapped keys by typing :map or :help index
 " terminal mode: to exit terminal mode and get back to normal mode, type <c-\><c-n>
-" netrw: open remote folder from inside vim - Lexplore scp://<host>//home/user/
-" netrw: open remote file from inside vim - edit scp://<host>//home/user/test.txt
-" macros: q<letter> start macro recording. Press q to stop recording. To execute the macro n times, type <number>@<letter>
-" increment a number <c-a>
-" decrement a number <c-x>
-" delete a line and put the cursor in the beginning in edit mode: cc
-" delete all at right side of the cursor and change to edit mode: C
-" replace a word: cw or ciw
 
-"
+" netrw explorer
 "	  ---			-----------------			----
 "	  Map			Quick Explanation			Link
 "	  ---			-----------------			----
@@ -341,6 +466,8 @@ set textwidth=120
 "	 <c-l>	Refresh the directory listing                        |netrw-ctrl-l|
 "	   R	Rename the designated file(s)/directory(ies)         |netrw-R|
 "	 <del>	Remove the file/directory                            |netrw-del|
+"	   mb	Bookmark current directory                           |netrw-mb|
+"	   gb	Go to previous bookmarked directory                  |netrw-gb|
 "
 "	 <F1>	Causes Netrw to issue help
 "	 <cr>	Netrw will enter the directory or read the file      |netrw-cr|
@@ -353,14 +480,12 @@ set textwidth=120
 "	   c	Make browsing directory the current directory        |netrw-c|
 "	   C	Setting the editing window                           |netrw-C|
 "	   D	Attempt to remove the file(s)/directory(ies)         |netrw-D|
-"	   gb	Go to previous bookmarked directory                  |netrw-gb|
 "	   gd	Force treatment as directory                         |netrw-gd|
 "	   gf	Force treatment as file                              |netrw-gf|
 "	   gh	Quick hide/unhide of dot-files                       |netrw-gh|
 "	   gn	Make top of tree the directory below the cursor      |netrw-gn|
 "	   i	Cycle between thin, long, wide, and tree listings    |netrw-i|
 "	   I	Toggle the displaying of the banner                  |netrw-I|
-"	   mb	Bookmark current directory                           |netrw-mb|
 "	   mc	Copy marked files to marked-file target directory    |netrw-mc|
 "	   md	Apply diff to marked files (up to 3)                 |netrw-md|
 "	   me	Place marked files on arg list and edit them         |netrw-me|
@@ -397,36 +522,4 @@ set textwidth=120
 "	    	browser window.  A vertical split is used.
 "	   x	View file with an associated program                 |netrw-x|
 "	   X	Execute filename under cursor via |system()|           |netrw-X|
-"
 
-" Moving around
-" e Move to the end of a word.
-" w Move forward to the beginning of a word.
-" 3w Move forward three words.
-" W Move forward a WORD (any non-whitespace characters).
-" b Move backward to the beginning of a word.
-" 3b Move backward three words.
-" $ Move to the end of the line.
-" 0 Move to the beginning of the line.
-" ^ Move to the first non-blank character of the line.
-" ) Jump forward one sentence.
-" ( Jump backward one sentence.
-" } Jump forward one paragraph.
-" { Jump backward one paragraph.:
-" j Jump forward one line.
-" k Jump backward one line.
-" H Jump to the top of the screen.
-" M Jump to the middle of the screen.
-" L Jump to the bottom of the screen.
-" 10<PageUp> or 10<CTRL-B> Move 10 pages up.
-" 5<PageDown> or 5<CTRL-F> Move 5 pages down.
-" G Jump to end of file.
-" 1G Jump to beginning of file (same as gg).
-" 50G Jump to line 50.
-" mx Set mark x at the current cursor position.
-" 'x Jump to the beginning of the line of mark x.
-" `x Jump to the cursor position of mark x.
-" '' Return to the line where the cursor was before the latest jump. (Two single quotes.)
-" `` Return to the cursor position before the latest jump (undo the jump). (Two back ticks. This is above the Tab key on some keyboards.)
-" '. Jump to the last-changed line.
-" % Jump to corresponding item, e.g. from an open brace to its matching closing brace. See Moving to matching braces for more.
