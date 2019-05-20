@@ -1,0 +1,9 @@
+{
+    // Remember to do a ":CocInstall coc-json" first in order to install the json language server extension for coc.nvim
+
+    // To make completion triggered with N input characters
+    "suggest.minTriggerInputLength": 3,
+    
+    // Automatically check if a new version of the Solargraph gem is available.
+    "solargraph.checkGemVersion": true 
+}
