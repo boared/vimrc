@@ -13,14 +13,23 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Syntax checking hacks for vim (:help syntastic)
+Plug 'vim-syntastic/syntastic'
+
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
 Plug 'rust-lang/rust.vim'
 
-" Coc is an intellisense engine for vim8 & neovim
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+" Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
-" Syntax checking hacks for vim (:help syntastic)
-Plug 'vim-syntastic/syntastic'
+" Lean & mean status/tabline for vim that's light as air (:help airline)
+Plug 'vim-airline/vim-airline'
+
+" Themes for vim-airline (:help airline)
+Plug 'vim-airline/vim-airline-themes'
+
+" A git wrapper so awesome, it should be illegal (:help fugitive)
+Plug 'tpope/vim-fugitive'
 
 " An Interface to WEB APIs.
 Plug 'mattn/webapi-vim'
@@ -46,15 +55,6 @@ Plug 'tpope/vim-repeat'
 " Vim plugin that displays tags in a window, ordered by scope (orgmode related)
 Plug 'majutsushi/tagbar'
 
-" Lean & mean status/tabline for vim that's light as air
-Plug 'vim-airline/vim-airline'
-
-" Themes for vim-airline (:help airline)
-Plug 'vim-airline/vim-airline-themes'
-
-" A git wrapper so awesome, it should be illegal
-Plug 'tpope/vim-fugitive'
-
 call plug#end()
 
 " rust.vim settings
@@ -73,46 +73,6 @@ let g:syntastic_check_on_wq = 0
 " vim-airline settings
 let g:airline_theme='dark'
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                                                       "PLUGINS"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('~/.local/share/nvim/plugged')
-
-" Text outlining and task management for Vim based on Emacs' Org-Mode
-Plug 'jceb/vim-orgmode'
-
-" Use CTRL-A/CTRL-X to increment dates, times, and more (orgmode related)
-Plug 'tpope/vim-speeddating'
-
-" Define a different filetype syntax on regions of a buffer (orgmode related)
-Plug 'inkarkat/vim-SyntaxRange'
-
-" Calendar vimscript (orgmode related)
-Plug 'mattn/calendar-vim'
-
-" Univeral Text Linking - Execute URLs, footnotes, open emails, organize ideas (orgmode related)
-Plug 'vim-scripts/utl.vim'
-
-" repeat.vim: enable repeating supported plugin maps with "." (orgmode related)
-Plug 'tpope/vim-repeat'
-
-" Vim plugin that displays tags in a window, ordered by scope (orgmode related)
-Plug 'majutsushi/tagbar'
-
-" Lean & mean status/tabline for vim that's light as air
-Plug 'vim-airline/vim-airline'
-
-" Themes for vim-airline (:help airline)
-Plug 'vim-airline/vim-airline-themes'
-
-" A git wrapper so awesome, it should be illegal
-Plug 'tpope/vim-fugitive'
-
-call plug#end()
-
-" vim-airline settings
-let g:airline_theme='dark'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                            "CONFIGURATIONS"
@@ -146,6 +106,9 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
+" Remove automatic line breaker
+set formatoptions-=tc
+
 " Configure netrw directory browser
 let g:netrw_sort_by = "exten"
 let g:netrw_sizestyle = "h" " Show file size in human readable format
@@ -173,16 +136,15 @@ set guioptions-=r " Remove right-hand scroll bar
 " that there is side-effects.
 let g:netrw_gx="<cWORD>"
 
+" A buffer becomes hidden when it is abandoned (that means you can change to another buffer without having to save the
+" current one. You'll still be asked to save before leaving with :q 
+set hidden
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "COLOR SCHEME"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme less
-
-" Color scheme for statusline
-"highlight slNormal   term=none cterm=none ctermfg=black ctermbg=lightgrey gui=none guifg=Black guibg=LightGrey
-"highlight slModified cterm=bold ctermfg=lightgrey ctermbg=red gui=bold guifg=LightGrey guibg=Red
+colorscheme kuroi
 
 function! OverridenHighlights() abort
     " Color scheme for Netrw directory browser
@@ -208,6 +170,9 @@ augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "KEY MAPPING"
+
+" Before addin a keymap, check if a key is being currently set, for example:
+" :verbose imap <tab>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Prefix key for commands.
 let mapleader=","
@@ -347,7 +312,9 @@ endfunction
                                                       "MINI TUTORIALS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" # Moving around (NORMAL mode):
+"""""""""""""""""""""""""""""""""""""
+     "MOVING AROUND (NORMAL MODE)"
+"""""""""""""""""""""""""""""""""""""
 "   e Move to the end of a word.
 "   w Move forward to the beginning of a word.
 "   3w Move forward three words.
@@ -368,8 +335,8 @@ endfunction
 "   L Jump to the bottom of the screen.
 "   10<PageUp> or 10<CTRL-B> Move 10 pages up.
 "   5<PageDown> or 5<CTRL-F> Move 5 pages down.
+"   gg Jump to beginning of file.
 "   G Jump to end of file.
-"   1G Jump to beginning of file (same as gg).
 "   50G Jump to line 50.
 "   mx Set mark x at the current cursor position.
 "   'x Jump to the beginning of the line of mark x.
@@ -379,11 +346,15 @@ endfunction
 "   '. Jump to the last-changed line.
 "   % Jump to corresponding item, e.g. from an open brace to its matching closing brace. See Moving to matching braces for more.
 
-" # Registers:
+"""""""""""""""""""""""""""""""""""""
+              "REGISTERS"
+"""""""""""""""""""""""""""""""""""""
 "   <c-r><register_name> In insert or command mode paste the content of given register
 "   :let @/='Text'  Write 'Text' to register /
 
-" # Editing:
+"""""""""""""""""""""""""""""""""""""
+              "EDITING"
+"""""""""""""""""""""""""""""""""""""
 "   :3,15move 40 Move the content of lines 3 through 15 to bellow line 40
 "   :3,15copy 40 Copy the content of lines 3 through 15 to bellow line 40
 "   copy word under cursor to command line: in normal mode with the cursor over any word, type / or : then <c-r><c-w>
@@ -397,15 +368,30 @@ endfunction
 "   Lexplore scp://<host>//home/user/ Open remote folder from inside vim
 "   edit scp://<host>//home/user/test.txt Open remote file from inside vim 
 
-" # Macros:
+"""""""""""""""""""""""""""""""""""""
+              "MACROS"
+"""""""""""""""""""""""""""""""""""""
 "   q<letter> start macro recording. Press q to stop recording. To execute the macro n times, type <number>@<letter>
+
+"""""""""""""""""""""""""""""""""""""
+              "NETRW"
+"""""""""""""""""""""""""""""""""""""
+"   % new file
+"   - go up one directory
+"   d make a directory
+"   R rename the designated file(s)/directory(ies)
+"   mb bookmark current directory
+"   gb go to previous bookmarked directory
+"   <del> remove the file/directory
+"   <c-l> refresh the directory listing
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Remove automatic line breaker
-set formatoptions-=tc
+" Break a line where the cursor is in normal mode (hit c-j, need to find another key cause c-j is move to bottom window)
+" nnoremap <NL> i<CR><ESC>
 
 " Search in all files that match extension of current file from the current dir, recursively for the word under cursor
 nnoremap <leader>S :execute 'lvimgrep /\<<c-r><c-w>\>/j ./**/*.' . expand('%:e')<cr>:lwindow<cr>
@@ -421,6 +407,9 @@ nnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
 vnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
 "inoremap <leader>f <esc>:pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr><i>
 
+" Remove trailing whitespace in the whole file
+nnoremap <leader>dw :%s/\s\+$//e<CR>
+
 nnoremap <F8> :TagbarToggle<CR>
 
 " Draw a vertical line at specified column (will make screen redrawing slower)
@@ -428,15 +417,6 @@ set colorcolumn=120
 
 " Set column size after that vim will auto-break lines for you.
 set textwidth=120
-
-" TODO:
-" . auto-close brackets
-" . search the occurrence of a text in "all files" (all files == all buffers? all files == all files inside a root dir?)
-" . have the concept of a project (like intellij project, netbeans project, whatever)
-" . open remote files using netrw
-" . better way to walk around buffers
-" . scrolling
-" . folding functions
 
 " SMALL TUTS
 " <c-r><register_name> in insert or command mode paste the content of given register
@@ -456,70 +436,81 @@ set textwidth=120
 " show mapped keys by typing :map or :help index
 " terminal mode: to exit terminal mode and get back to normal mode, type <c-\><c-n>
 
-" netrw explorer
-"	  ---			-----------------			----
-"	  Map			Quick Explanation			Link
-"	  ---			-----------------			----
-"	   %	New file                                             |netrw-%
-"	   -	Go up one directory                                  |netrw--|
-"	   d	Make a directory                                     |netrw-d|
-"	 <c-l>	Refresh the directory listing                        |netrw-ctrl-l|
-"	   R	Rename the designated file(s)/directory(ies)         |netrw-R|
-"	 <del>	Remove the file/directory                            |netrw-del|
-"	   mb	Bookmark current directory                           |netrw-mb|
-"	   gb	Go to previous bookmarked directory                  |netrw-gb|
-"
-"	 <F1>	Causes Netrw to issue help
-"	 <cr>	Netrw will enter the directory or read the file      |netrw-cr|
-"	 <c-h>	Edit file hiding list                                |netrw-ctrl-h|
-"	 <c-r>	Browse using a gvim server                           |netrw-ctrl-r|
-"	 <c-tab> Shrink/expand a netrw/explore window                |netrw-c-tab|
-"	   a	Cycles between normal display,                       |netrw-a|
-"	    	hiding (suppress display of files matching g:netrw_list_hide)
-"	    	and showing (display only files which match g:netrw_list_hide)
-"	   c	Make browsing directory the current directory        |netrw-c|
-"	   C	Setting the editing window                           |netrw-C|
-"	   D	Attempt to remove the file(s)/directory(ies)         |netrw-D|
-"	   gd	Force treatment as directory                         |netrw-gd|
-"	   gf	Force treatment as file                              |netrw-gf|
-"	   gh	Quick hide/unhide of dot-files                       |netrw-gh|
-"	   gn	Make top of tree the directory below the cursor      |netrw-gn|
-"	   i	Cycle between thin, long, wide, and tree listings    |netrw-i|
-"	   I	Toggle the displaying of the banner                  |netrw-I|
-"	   mc	Copy marked files to marked-file target directory    |netrw-mc|
-"	   md	Apply diff to marked files (up to 3)                 |netrw-md|
-"	   me	Place marked files on arg list and edit them         |netrw-me|
-"	   mf	Mark a file                                          |netrw-mf|
-"	   mF	Unmark files                                         |netrw-mF|
-"	   mg	Apply vimgrep to marked files                        |netrw-mg|
-"	   mh	Toggle marked file suffices' presence on hiding list |netrw-mh|
-"	   mm	Move marked files to marked-file target directory    |netrw-mm|
-"	   mp	Print marked files                                   |netrw-mp|
-"	   mr	Mark files using a shell-style |regexp|                |netrw-mr|
-"	   mt	Current browsing directory becomes markfile target   |netrw-mt|
-"	   mT	Apply ctags to marked files                          |netrw-mT|
-"	   mu	Unmark all marked files                              |netrw-mu|
-"	   mv	Apply arbitrary vim   command to marked files        |netrw-mv|
-"	   mx	Apply arbitrary shell command to marked files        |netrw-mx|
-"	   mX	Apply arbitrary shell command to marked files en bloc|netrw-mX|
-"	   mz	Compress/decompress marked files                     |netrw-mz|
-"	   o	Enter the file/directory under the cursor in a new   |netrw-o|
-"	    	browser window.  A horizontal split is used.
-"	   O	Obtain a file specified by cursor                    |netrw-O|
-"	   p	Preview the file                                     |netrw-p|
-"	   P	Browse in the previously used window                 |netrw-P|
-"	   qb	List bookmarked directories and history              |netrw-qb|
-"	   qf	Display information on file                          |netrw-qf|
-"	   qF	Mark files using a quickfix list                     |netrw-qF|
-"	   qL	Mark files using a |location-list|                     |netrw-qL|
-"	   r	Reverse sorting order                                |netrw-r|
-"	   s	Select sorting style: by name, time, or file size    |netrw-s|
-"	   S	Specify suffix priority for name-sorting             |netrw-S|
-"	   t	Enter the file/directory under the cursor in a new tab|netrw-t|
-"	   u	Change to recently-visited directory                 |netrw-u|
-"	   U	Change to subsequently-visited directory             |netrw-U|
-"	   v	Enter the file/directory under the cursor in a new   |netrw-v|
-"	    	browser window.  A vertical split is used.
-"	   x	View file with an associated program                 |netrw-x|
-"	   X	Execute filename under cursor via |system()|           |netrw-X|
+
+
+" ### Tabs ###
+" Open a new tab and execute the given command
+":tab <cmd>
+" 
+"" Open a new tab
+":tab split
+" 
+"" Close the current tab page
+":tabc
+" 
+"" Close all other tabs
+":tabo
+" 
+"" Lists the tabs opened and the windows they contain
+":tabs
+" 
+"" Move between tabs
+":tabn " Next tab (or gt in Normal mode)
+":tabp " Previous tab (or gT in Normal mode)
+":tabfirst " First tab
+":tablast " Last tab
+":{N}tabn " N-th tab (or {N}gt in Normal mode)
+" 
+"" Move current window to new tab
+"<c-w> T
+" 
+"" Move current tab to first position
+":tabm 0
+" 
+"" Move current tab to last position
+":tabm
+" 
+"" Move current tab to position i+1
+":tabm {i}
+
+
+" Auto-close brackets, etc.
+"inoremap " ""<left>
+"inoremap "" ""<left>
+"inoremap ' ''<left>
+"inoremap ( ()<left>
+"inoremap [ []<left>
+"inoremap { {}<left>
+"inoremap {<CR> {<CR>}<ESC>O
+"inoremap {;<CR> {<CR>};<ESC>O
+
+"""""""""""""""""""""""""""""""""""""
+              "COC-VIM"
+"""""""""""""""""""""""""""""""""""""
+" Navigate completion list with <Tab> and <S-Tab>
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> to confirm complete
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight // comments in json files (useful for coc configuration file)
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
