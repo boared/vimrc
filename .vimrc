@@ -31,6 +31,9 @@ Plug 'vim-airline/vim-airline-themes'
 " A git wrapper so awesome, it should be illegal (:help fugitive)
 Plug 'tpope/vim-fugitive'
 
+" Vim plugin that displays tags in a window, ordered by scope (:help tagbar)
+Plug 'majutsushi/tagbar'
+
 " An Interface to WEB APIs.
 Plug 'mattn/webapi-vim'
 
@@ -51,9 +54,6 @@ Plug 'vim-scripts/utl.vim'
 
 " repeat.vim: enable repeating supported plugin maps with "." (orgmode related)
 Plug 'tpope/vim-repeat'
-
-" Vim plugin that displays tags in a window, ordered by scope (orgmode related)
-Plug 'majutsushi/tagbar'
 
 call plug#end()
 
@@ -100,6 +100,7 @@ set number " Show line numbers
 set laststatus=2 " Always show status line
 set nowrap " Disable line wraping by default
 set noshowmode " Let vim-airline handle this
+set colorcolumn=120 " Draw a vertical line at specified column (will make screen redrawing slower)
 
 " Indentation options
 set softtabstop=4
@@ -357,7 +358,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""
 "   :3,15move 40 Move the content of lines 3 through 15 to bellow line 40
 "   :3,15copy 40 Copy the content of lines 3 through 15 to bellow line 40
-"   copy word under cursor to command line: in normal mode with the cursor over any word, type / or : then <c-r><c-w>
+"   / or : then <c-r><c-w> in normal mode, copy word under cursor to command line
 "   <c-n> Autocomplete
 "   <c-a> Increment a number
 "   <c-x> Decrement a number
@@ -385,10 +386,29 @@ endfunction
 "   <del> remove the file/directory
 "   <c-l> refresh the directory listing
 
+"""""""""""""""""""""""""""""""""""""
+           "TERMINAL MODE"
+"""""""""""""""""""""""""""""""""""""
+" :terminal to start a terminal in the current window
+" i to enter terminal mode
+" <c-\><c-n> to exit terminal mode
+
+"""""""""""""""""""""""""""""""""""""
+                "MISC"
+"""""""""""""""""""""""""""""""""""""
+" m<char> mark current cursor position with letter <char>. '<char> go back to marked line beginning, `<char> go back to marked cursor position
+" :map or :help index show mapped keys
+" search for word under cursor: in normal mode press * to search forward and # to search backward. g* and g# for non-exact word
+" to save your current session (open tabs, buffer, etc.) type :mksession session_name.vim (session_name.vim will be saved in the current folder)
+" use source <path>/session_name.vim to restore your session
+" :grep /<pattern>/gj ./**/*.py search recursively in the current dir in all python files for occurrence of <pattern>
+" K in normal mode with the cursor over a word run a program to lookup the word under the cursor.
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <F8> :TagbarToggle<CR>
 
 " Break a line where the cursor is in normal mode (hit c-j, need to find another key cause c-j is move to bottom window)
 " nnoremap <NL> i<CR><ESC>
@@ -409,34 +429,6 @@ vnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
 
 " Remove trailing whitespace in the whole file
 nnoremap <leader>dw :%s/\s\+$//e<CR>
-
-nnoremap <F8> :TagbarToggle<CR>
-
-" Draw a vertical line at specified column (will make screen redrawing slower)
-set colorcolumn=120
-
-" Set column size after that vim will auto-break lines for you.
-set textwidth=120
-
-" SMALL TUTS
-" <c-r><register_name> in insert or command mode paste the content of given register
-" :3,15move 40 " Move the content of lines 3 through 15 to bellow line 40
-" :3,15copy 40 " Copy the content of lines 3 through 15 to bellow line 40
-" :let @/='Text'  " Write to register /
-" search for word under cursor: in normal mode press * to search forward and # to search backward. g* and g# for non-exact word
-" copy word under cursor to command line: in normal mode with the cursor over any word, type / or : then <c-r><c-w>
-" search for word under cursor: in normal mode press * to search forward and # to search backward. g* and g# for non-exact word
-" gd " Go to local declaration of variable under cursor
-" gD " Go to global declaration of variable under cursor
-" to save your current session (open tabs, buffer, etc.) type :mksession session_name.vim (session_name.vim will be saved in the current folder)
-" use source <path>/session_name.vim to restore your session
-" m<char> mark current cursor position with letter <char>. '<char> go back to marked line beginning, `<char> go back to marked cursor position
-" :grep /<pattern>/gj ./**/*.py search recursively in the current dir in all python files for occurrence of <pattern>
-" K in normal mode with the cursor over a word run a program to lookup the word under the cursor.
-" show mapped keys by typing :map or :help index
-" terminal mode: to exit terminal mode and get back to normal mode, type <c-\><c-n>
-
-
 
 " ### Tabs ###
 " Open a new tab and execute the given command

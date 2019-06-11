@@ -5,5 +5,13 @@
     "suggest.minTriggerInputLength": 3,
     
     // Automatically check if a new version of the Solargraph gem is available.
-    "solargraph.checkGemVersion": true 
+    "solargraph.checkGemVersion": true,
+
+    // coc-java configurations
+    "java.signatureHelp.enabled": true,
+    "java.completion.overwrite": true,
+    "java.format.onType.enabled": true,
+    "java.completion.enabled": true,
+    "java.codeGeneration.generateComments": true,
+    "java.autobuild.enabled": false
 }
