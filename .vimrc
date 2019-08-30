@@ -13,11 +13,15 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Fuzzy finder plugin (:help fzf-vim)
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
 " Syntax checking hacks for vim (:help syntastic)
-Plug 'vim-syntastic/syntastic'
+"Plug 'vim-syntastic/syntastic'
 
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
-Plug 'rust-lang/rust.vim'
+"Plug 'rust-lang/rust.vim'
 
 " Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
@@ -72,6 +76,22 @@ let g:syntastic_check_on_wq = 0
 
 " vim-airline settings
 let g:airline_theme='dark'
+
+" coc-nvim settings
+" Highlight // comments in json files (useful for coc configuration file)
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+" Navigate completion list with <Tab> and <S-Tab>
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -172,7 +192,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "KEY MAPPING"
 
-" Before addin a keymap, check if a key is being currently set, for example:
+" Before adding a keymap, check if a key is being currently set, for example:
 " :verbose imap <tab>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Prefix key for commands.
@@ -185,8 +205,8 @@ inoremap <c-d> <esc>yypi
 vnoremap <c-d> ykp
 
 " Swap current and next lines
-nnoremap <c-b> ddp
-inoremap <c-b> <esc>ddpi
+"nnoremap <c-b> ddp
+"inoremap <c-b> <esc>ddpi
 
 " Convert entire word to upper case
 nnoremap <c-u> viwU
@@ -196,8 +216,8 @@ inoremap <c-u> <esc>viwUi
 nnoremap <c-y> viwu
 inoremap <c-y> <esc>viwui
 
-" Open you .vimrc to edit
-nnoremap <leader>ev :e ~/.vimrc<cr>
+" Open .vimrc to edit
+nnoremap <leader>ev :tabedit ~/.vimrc<cr>
 
 " Source your .vimrc file so changes take effect immediately
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -222,10 +242,7 @@ nnoremap <leader>ls :ls<cr>
 nnoremap <space> :bn<cr>
 
 " Go to previous buffer
-nnoremap <s-space> :bp<cr>
-
-" Delete current buffer
-nnoremap <leader>bd :bd<cr>
+nnoremap <c-space> :bp<cr>
 
 " Go to alternate file
 nnoremap <leader>af <c-^>
@@ -233,6 +250,9 @@ nnoremap <leader>af <c-^>
 " Yank to clipboard instead of "0
 vnoremap <leader>cc "*y:echo "Text copied to \"* register"<cr>
 nnoremap <leader>cc "*yy:echo "Text copied to \"* register"<cr>
+
+" Copy the content of yanked/deleted text to clipboard
+nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
 
 " Delete from the cursor to the beginning of line
 nnoremap <leader>db v0d
@@ -256,13 +276,19 @@ nnoremap <leader>tn :set number! number?<cr>
 " Toggle line wrap
 nnoremap <leader>tw :set wrap! wrap?<cr>
 
-" Toggle search highlight
-nnoremap <leader>shi :set hlsearch! hlsearch?<cr>
-
 " Move between tabs (not working in vim terminal, probably because my iTerm2
 " capture <c-tab> to change its own tabs)
 nnoremap <c-tab> gt
 nnoremap <s-c-tab> gT
+
+" Select all text
+nnoremap <leader>sall ggVG
+
+" [coc-nvim] Use <cr> to confirm complete
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" [coc-nvim] Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -272,16 +298,12 @@ nnoremap <s-c-tab> gT
 " when you change dir and trigger toggle again.
 " source: https://www.reddit.com/r/vim/comments/6jcyfj/toggle_lexplore_properly/djdmsal/
 let g:NetrwIsOpen=0
-
-" Select all text
-nnoremap <leader>sall ggVG
-
 function! ToggleNetrw() abort
     if g:NetrwIsOpen
         let i = bufnr("$")
         while (i >= 1)
             if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i 
+                silent exe "bwipeout! " . i 
             endif
             let i-=1
         endwhile
@@ -292,126 +314,20 @@ function! ToggleNetrw() abort
     endif
 endfunction
 
-"function! HumanReadableFileSize() abort
-"    let bytes = getfsize(expand("%:p"))
-"    if bytes <= 0
-"        return 0 
-"    endif
-"    if bytes < 1024
-"        return bytes
-"    elseif bytes < 1024*1024
-"        return float2nr(round((bytes / 1024.0))) . "K"
-"    elseif bytes < 1024*1024*1024
-"        return float2nr(round(bytes / (1024.0*1024.0))) . "M"
-"    else
-"        return float2nr(round(bytes / (1024.0*1024.0*1024.0))) . "G"
-"    endif
-"endfunction
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                                                      "MINI TUTORIALS"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""
-     "MOVING AROUND (NORMAL MODE)"
-"""""""""""""""""""""""""""""""""""""
-"   e Move to the end of a word.
-"   w Move forward to the beginning of a word.
-"   3w Move forward three words.
-"   W Move forward a WORD (any non-whitespace characters).
-"   b Move backward to the beginning of a word.
-"   3b Move backward three words.
-"   $ Move to the end of the line.
-"   0 Move to the beginning of the line.
-"   ^ Move to the first non-blank character of the line.
-"   ) Jump forward one sentence.
-"   ( Jump backward one sentence.
-"   } Jump forward one paragraph.
-"   { Jump backward one paragraph.:
-"   j Jump forward one line.
-"   k Jump backward one line.
-"   H Jump to the top of the screen.
-"   M Jump to the middle of the screen.
-"   L Jump to the bottom of the screen.
-"   10<PageUp> or 10<CTRL-B> Move 10 pages up.
-"   5<PageDown> or 5<CTRL-F> Move 5 pages down.
-"   gg Jump to beginning of file.
-"   G Jump to end of file.
-"   50G Jump to line 50.
-"   mx Set mark x at the current cursor position.
-"   'x Jump to the beginning of the line of mark x.
-"   `x Jump to the cursor position of mark x.
-"   '' Return to the line where the cursor was before the latest jump. (Two single quotes.)
-"   `` Return to the cursor position before the latest jump (undo the jump). (Two back ticks. This is above the Tab key on some keyboards.)
-"   '. Jump to the last-changed line.
-"   % Jump to corresponding item, e.g. from an open brace to its matching closing brace. See Moving to matching braces for more.
-
-"""""""""""""""""""""""""""""""""""""
-              "REGISTERS"
-"""""""""""""""""""""""""""""""""""""
-"   <c-r><register_name> In insert or command mode paste the content of given register
-"   :let @/='Text'  Write 'Text' to register /
-
-"""""""""""""""""""""""""""""""""""""
-              "EDITING"
-"""""""""""""""""""""""""""""""""""""
-"   :3,15move 40 Move the content of lines 3 through 15 to bellow line 40
-"   :3,15copy 40 Copy the content of lines 3 through 15 to bellow line 40
-"   / or : then <c-r><c-w> in normal mode, copy word under cursor to command line
-"   <c-n> Autocomplete
-"   <c-a> Increment a number
-"   <c-x> Decrement a number
-"   cc Delete a line and put the cursor in the beginning in edit mode
-"   C delete all at right side of the cursor and change to edit mode
-"   cw or ciw Replace a word
-"   ci" Delete everything inside quotes and put in edit mode
-"   Lexplore scp://<host>//home/user/ Open remote folder from inside vim
-"   edit scp://<host>//home/user/test.txt Open remote file from inside vim 
-
-"""""""""""""""""""""""""""""""""""""
-              "MACROS"
-"""""""""""""""""""""""""""""""""""""
-"   q<letter> start macro recording. Press q to stop recording. To execute the macro n times, type <number>@<letter>
-
-"""""""""""""""""""""""""""""""""""""
-              "NETRW"
-"""""""""""""""""""""""""""""""""""""
-"   % new file
-"   - go up one directory
-"   d make a directory
-"   R rename the designated file(s)/directory(ies)
-"   mb bookmark current directory
-"   gb go to previous bookmarked directory
-"   <del> remove the file/directory
-"   <c-l> refresh the directory listing
-
-"""""""""""""""""""""""""""""""""""""
-           "TERMINAL MODE"
-"""""""""""""""""""""""""""""""""""""
-" :terminal to start a terminal in the current window
-" i to enter terminal mode
-" <c-\><c-n> to exit terminal mode
-
-"""""""""""""""""""""""""""""""""""""
-                "MISC"
-"""""""""""""""""""""""""""""""""""""
-" m<char> mark current cursor position with letter <char>. '<char> go back to marked line beginning, `<char> go back to marked cursor position
-" :map or :help index show mapped keys
-" search for word under cursor: in normal mode press * to search forward and # to search backward. g* and g# for non-exact word
-" to save your current session (open tabs, buffer, etc.) type :mksession session_name.vim (session_name.vim will be saved in the current folder)
-" use source <path>/session_name.vim to restore your session
-" :grep /<pattern>/gj ./**/*.py search recursively in the current dir in all python files for occurrence of <pattern>
-" K in normal mode with the cursor over a word run a program to lookup the word under the cursor.
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F8> :TagbarToggle<CR>
+" Clear search highlight without disabling highlight
+nnoremap <esc> :noh<return><esc>
+
+" Copy the content of yanked/deleted text to clipboard
+nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
+
+nnoremap <F8> :TagbarToggle<cr>
 
 " Break a line where the cursor is in normal mode (hit c-j, need to find another key cause c-j is move to bottom window)
-" nnoremap <NL> i<CR><ESC>
+nnoremap <leader>bl i<CR><ESC>
 
 " Search in all files that match extension of current file from the current dir, recursively for the word under cursor
 nnoremap <leader>S :execute 'lvimgrep /\<<c-r><c-w>\>/j ./**/*.' . expand('%:e')<cr>:lwindow<cr>
@@ -423,8 +339,8 @@ nnoremap <leader>s <c-w>10-
 nnoremap <leader>w <c-w>10+
 
 " clang-format tool
-nnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
-vnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
+"nnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
+"vnoremap <leader>f :pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr>
 "inoremap <leader>f <esc>:pyf /usr/local/opt/llvm/share/clang/clang-format.py<cr><i>
 
 " Remove trailing whitespace in the whole file
@@ -479,30 +395,30 @@ nnoremap <leader>dw :%s/\s\+$//e<CR>
 """""""""""""""""""""""""""""""""""""
               "COC-VIM"
 """""""""""""""""""""""""""""""""""""
-" Navigate completion list with <Tab> and <S-Tab>
+" Remap keys for gotos
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
+"nmap <silent> <leader>gm <Plug>(coc-rename)
+nmap <F6> <Plug>(coc-refactor)
+
+" Format code
+vmap <leader>p <Plug>(coc-format-selected)
+nmap <leader>p <Plug>(coc-format-selected)
+
+
+" Map <tab> for trigger completion, snippet expand and jump like VSCode
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  \ pumvisible() ? "\<C-n>" :
+  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <cr> to confirm complete
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Highlight // comments in json files (useful for coc configuration file)
-autocmd FileType json syntax match Comment +\/\/.\+$+
+let g:coc_snippet_next = '<tab>'
 
