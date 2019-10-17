@@ -13,15 +13,12 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
+Plug 'rust-lang/rust.vim'
+
 " Fuzzy finder plugin (:help fzf-vim)
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-
-" Syntax checking hacks for vim (:help syntastic)
-"Plug 'vim-syntastic/syntastic'
-
-" Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
-"Plug 'rust-lang/rust.vim'
 
 " Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
@@ -35,29 +32,32 @@ Plug 'vim-airline/vim-airline-themes'
 " A git wrapper so awesome, it should be illegal (:help fugitive)
 Plug 'tpope/vim-fugitive'
 
+" Syntax checking hacks for vim (:help syntastic)
+"Plug 'vim-syntastic/syntastic'
+
 " Vim plugin that displays tags in a window, ordered by scope (:help tagbar)
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 
 " An Interface to WEB APIs.
-Plug 'mattn/webapi-vim'
+"Plug 'mattn/webapi-vim'
 
 " Text outlining and task management for Vim based on Emacs' Org-Mode
-Plug 'jceb/vim-orgmode'
+"Plug 'jceb/vim-orgmode'
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more (orgmode related)
-Plug 'tpope/vim-speeddating'
+"Plug 'tpope/vim-speeddating'
 
 " Define a different filetype syntax on regions of a buffer (orgmode related)
-Plug 'inkarkat/vim-SyntaxRange'
+"Plug 'inkarkat/vim-SyntaxRange'
 
 " Calendar vimscript (orgmode related)
-Plug 'mattn/calendar-vim'
+"Plug 'mattn/calendar-vim'
 
 " Univeral Text Linking - Execute URLs, footnotes, open emails, organize ideas (orgmode related)
-Plug 'vim-scripts/utl.vim'
+"Plug 'vim-scripts/utl.vim'
 
 " repeat.vim: enable repeating supported plugin maps with "." (orgmode related)
-Plug 'tpope/vim-repeat'
+"Plug 'tpope/vim-repeat'
 
 call plug#end()
 
@@ -65,14 +65,14 @@ call plug#end()
 let g:rustfmt_autosave = 1
 
 " syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 " vim-airline settings
 let g:airline_theme='dark'
@@ -131,7 +131,7 @@ set expandtab
 set formatoptions-=tc
 
 " Configure netrw directory browser
-let g:netrw_sort_by = "exten"
+let g:netrw_sort_by = "name"
 let g:netrw_sizestyle = "h" " Show file size in human readable format
 let g:netrw_banner = 0 " You can still show the banner by pressing I
 let g:netrw_liststyle = 1 
@@ -200,17 +200,17 @@ let mapleader=","
 let maplocalleader = "\\"
 
 " Duplicate line/selection
-nnoremap <c-d> yyp
-inoremap <c-d> <esc>yypi
-vnoremap <c-d> ykp
+"nnoremap <c-d> yyp
+"inoremap <c-d> <esc>yypi
+"vnoremap <c-d> ykp
 
 " Swap current and next lines
 "nnoremap <c-b> ddp
 "inoremap <c-b> <esc>ddpi
 
 " Convert entire word to upper case
-nnoremap <c-u> viwU
-inoremap <c-u> <esc>viwUi
+"nnoremap <c-u> viwU
+"inoremap <c-u> <esc>viwUi
 
 " Convert entire word to lower case
 nnoremap <c-y> viwu
