@@ -52,6 +52,8 @@
 - `ci"` _Delete everything inside quotes and put in edit mode - normal mode_
 - `:Lexplore scp://<host>//home/user/` _Open remote folder from inside vim - normal mode_
 - `:edit scp://<host>//home/user/test.txt` _Open remote file from inside vim - normal mode_
+- `:sort u` _Sort a file and remove duplicates_
+- `:%g!/<pattern>/d` _Delete all lines that matches the pattern. Use ! if you want to delete lines that do not match the pattern._
 
 # Macros
 
