@@ -113,4 +113,5 @@
 - `K` _Run a program to lookup the word under the cursor - normal mode_
 - `:mksession <path>/<session_name>` _Save your current session (open tabs, buffer, etc.) - command mode_
 - `:source <path>/<session_name>` _To restore your session - command mode_
+- `g<c-g>` _Show some statistics of the current buffer - normal mode_
 
