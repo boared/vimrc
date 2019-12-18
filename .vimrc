@@ -13,6 +13,9 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" A tree explorer plugin for vim
+Plug 'scrooloose/nerdtree'
+
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
 Plug 'rust-lang/rust.vim'
 
@@ -209,12 +212,12 @@ let maplocalleader = "\\"
 "inoremap <c-b> <esc>ddpi
 
 " Convert entire word to upper case
-"nnoremap <c-u> viwU
-"inoremap <c-u> <esc>viwUi
+nnoremap <leader>up viwU
+inoremap <leader>up <esc>viwUi
 
 " Convert entire word to lower case
-nnoremap <c-y> viwu
-inoremap <c-y> <esc>viwui
+nnoremap <leader>lo viwu
+inoremap <leader>lo <esc>viwui
 
 " Open .vimrc to edit
 nnoremap <leader>ev :tabedit ~/.vimrc<cr>
@@ -235,8 +238,8 @@ nnoremap <leader>hs :split<cr>
 " Split window vertically
 nnoremap <leader>vs :vsplit<cr>
 
-" List all existing buffers
-nnoremap <leader>ls :ls<cr>
+" List all existing buffers using fzf
+nnoremap <leader>ls :Buffers<cr>
 
 " Go to next buffer
 nnoremap <space> :bn<cr>
@@ -266,8 +269,12 @@ nnoremap <leader>r :%substitute/<c-r><c-a>//cg<left><left><left>
 " Sort selection.
 xnoremap <leader>s :'<,'>sort<cr>
 
+" Clear search highlight without disabling highlight
+nnoremap <esc> :noh<return><esc>
+
 " Toggle directory browser
-nnoremap <leader>ex :call ToggleNetrw()<cr>
+"nnoremap <leader>ex :call ToggleNetrw()<cr>
+nnoremap <leader>ex :NERDTreeToggle<cr>
 
 " Toggle line number. Useful when selecting a block of text with the mouse and
 " want to avoid copy line numbers.
@@ -318,9 +325,6 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Clear search highlight without disabling highlight
-nnoremap <esc> :noh<return><esc>
-
 " Copy the content of yanked/deleted text to clipboard
 nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
 
