@@ -19,12 +19,12 @@ Plug 'scrooloose/nerdtree'
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
 Plug 'rust-lang/rust.vim'
 
+" Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+
 " Fuzzy finder plugin (:help fzf-vim)
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-
-" Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Lean & mean status/tabline for vim that's light as air (:help airline)
 Plug 'vim-airline/vim-airline'
@@ -330,7 +330,7 @@ nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
 
 nnoremap <F8> :TagbarToggle<cr>
 
-" Break a line where the cursor is in normal mode (hit c-j, need to find another key cause c-j is move to bottom window)
+" Break a line where the cursor is in normal mode
 nnoremap <leader>bl i<CR><ESC>
 
 " Search in all files that match extension of current file from the current dir, recursively for the word under cursor
