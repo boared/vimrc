@@ -114,4 +114,5 @@
 - `:mksession <path>/<session_name>` _Save your current session (open tabs, buffer, etc.) - command mode_
 - `:source <path>/<session_name>` _To restore your session - command mode_
 - `g<c-g>` _Show some statistics of the current buffer - normal mode_
+- `set ft=javascript` _Set syntax highlight to the current buffer. Useful when working on a non-saved buffer and you want syntax highlight._
 
