@@ -260,8 +260,8 @@ nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
 " Delete from the cursor to the beginning of line
 nnoremap <leader>db v0d
 
-" Delete from the cursor to the end of line
-nnoremap <leader>df v$hd
+" Delete from the cursor to the end of line (just use D or C)
+"nnoremap <leader>df v$hd
 
 " Search and replace the word under the cursor
 nnoremap <leader>r :%substitute/<c-r><c-a>//cg<left><left><left>
