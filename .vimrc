@@ -13,7 +13,10 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
-" A tree explorer plugin for vim
+" Adaptation of Atom's one-light and one-dark colorschemes
+Plug 'rakr/vim-one'
+
+" A tree explorer plugin for vim (:help NERDTree)
 Plug 'scrooloose/nerdtree'
 
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
@@ -33,7 +36,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " A git wrapper so awesome, it should be illegal (:help fugitive)
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 
 " Syntax checking hacks for vim (:help syntastic)
 "Plug 'vim-syntastic/syntastic'
@@ -78,7 +81,7 @@ let g:rustfmt_autosave = 1
 "let g:syntastic_check_on_wq = 0
 
 " vim-airline settings
-let g:airline_theme='dark'
+let g:airline_theme='one'
 
 " coc-nvim settings
 " Highlight // comments in json files (useful for coc configuration file)
@@ -164,32 +167,33 @@ let g:netrw_gx="<cWORD>"
 " current one. You'll still be asked to save before leaving with :q 
 set hidden
 
+" Read the file again if it was modified outside Vim. If there's unsaved changes in the buffer the file will not be updated.
+set autoread
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "COLOR SCHEME"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme kuroi
+"Credit joshdick
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
-function! OverridenHighlights() abort
-    " Color scheme for Netrw directory browser
-    "highlight netrwCompress term=NONE cterm=NONE gui=NONE ctermfg=10 guifg=green  ctermbg=0 guibg=black
-    "highlight netrwData     term=NONE cterm=NONE gui=NONE ctermfg=9 guifg=blue ctermbg=0 guibg=black
-    "highlight netrwHdr      term=NONE cterm=NONE,italic gui=NONE guifg=SeaGreen1
-    "highlight netrwLex      term=NONE cterm=NONE,italic gui=NONE guifg=SeaGreen1
-    "highlight netrwYacc     term=NONE cterm=NONE,italic gui=NONE guifg=SeaGreen1
-    "highlight netrwLib      term=NONE cterm=NONE gui=NONE ctermfg=14 guifg=yellow
-    "highlight netrwObj      term=NONE cterm=NONE gui=NONE ctermfg=12 guifg=red
-    "highlight netrwTilde    term=NONE cterm=NONE gui=NONE ctermfg=12 guifg=red
-    "highlight netrwTmp      term=NONE cterm=NONE gui=NONE ctermfg=12 guifg=red
-    "highlight netrwTags     term=NONE cterm=NONE gui=NONE ctermfg=12 guifg=red
-    "highlight netrwDoc      term=NONE cterm=NONE gui=NONE ctermfg=220 ctermbg=27 guifg=yellow2 guibg=Blue3
-    highlight netrwSymLink  term=none cterm=bold ctermfg=green gui=bold guifg=Green
-endfunction
-
-augroup OverridenColors
-    autocmd!
-    autocmd ColorScheme * call OverridenHighlights()
-augroup END
+set background=dark
+let g:one_allow_italics = 1
+colorscheme one
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -201,15 +205,6 @@ augroup END
 " Prefix key for commands.
 let mapleader=","
 let maplocalleader = "\\"
-
-" Duplicate line/selection
-"nnoremap <c-d> yyp
-"inoremap <c-d> <esc>yypi
-"vnoremap <c-d> ykp
-
-" Swap current and next lines
-"nnoremap <c-b> ddp
-"inoremap <c-b> <esc>ddpi
 
 " Convert entire word to upper case
 nnoremap <leader>up viwU
@@ -257,12 +252,6 @@ nnoremap <leader>cc "*yy:echo "Text copied to \"* register"<cr>
 " Copy the content of yanked/deleted text to clipboard
 nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
 
-" Delete from the cursor to the beginning of line
-nnoremap <leader>db v0d
-
-" Delete from the cursor to the end of line (just use D or C)
-"nnoremap <leader>df v$hd
-
 " Search and replace the word under the cursor
 nnoremap <leader>r :%substitute/<c-r><c-a>//cg<left><left><left>
 
@@ -273,7 +262,6 @@ xnoremap <leader>s :'<,'>sort<cr>
 nnoremap <esc> :noh<return><esc>
 
 " Toggle directory browser
-"nnoremap <leader>ex :call ToggleNetrw()<cr>
 nnoremap <leader>ex :NERDTreeToggle<cr>
 
 " Toggle line number. Useful when selecting a block of text with the mouse and
@@ -289,7 +277,7 @@ nnoremap <c-tab> gt
 nnoremap <s-c-tab> gT
 
 " Select all text
-nnoremap <leader>sall ggVG
+nnoremap <leader>sa ggVG
 
 " [coc-nvim] Use <cr> to confirm complete
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -301,33 +289,12 @@ inoremap <silent><expr> <c-space> coc#refresh()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                         "FUNCTIONS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" This function replaces :Lexplore toggle which is bugged. :Lexplore might show multiple explorers
-" when you change dir and trigger toggle again.
-" source: https://www.reddit.com/r/vim/comments/6jcyfj/toggle_lexplore_properly/djdmsal/
-let g:NetrwIsOpen=0
-function! ToggleNetrw() abort
-    if g:NetrwIsOpen
-        let i = bufnr("$")
-        while (i >= 1)
-            if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout! " . i 
-            endif
-            let i-=1
-        endwhile
-        let g:NetrwIsOpen=0
-    else
-        let g:NetrwIsOpen=1
-        silent Lexplore
-    endif
-endfunction
 
+" <Add user defined functions here>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                        "EXPERIMENTS"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Copy the content of yanked/deleted text to clipboard
-nnoremap <leader>cy :let @*=@"<cr>:echo "Yanked text copied to clipboard"<cr>
-
 nnoremap <F8> :TagbarToggle<cr>
 
 " Break a line where the cursor is in normal mode
@@ -426,3 +393,25 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
+" Highlight duplicate lines.
+" To execute this command, in normal mode do `:call HighlightRepeats()`
+" source: https://stackoverflow.com/questions/1268032/how-can-i-mark-highlight-duplicate-lines-in-vi-editor/28690847
+function! HighlightRepeats() range
+  let lineCounts = {}
+  let lineNum = a:firstline
+  while lineNum <= a:lastline
+    let lineText = getline(lineNum)
+    if lineText != ""
+      let lineCounts[lineText] = (has_key(lineCounts, lineText) ? lineCounts[lineText] : 0) + 1
+    endif
+    let lineNum = lineNum + 1
+  endwhile
+  exe 'syn clear Repeat'
+  for lineText in keys(lineCounts)
+    if lineCounts[lineText] >= 2
+      exe 'syn match Repeat "^' . escape(lineText, '".\^$*[]') . '$"'
+    endif
+  endfor
+endfunction
+
+"command! -range=% HighlightRepeats <line1>,<line2>call HighlightRepeats()
