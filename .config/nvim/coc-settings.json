@@ -1,5 +1,7 @@
 {
     // Remember to do a ":CocInstall coc-json" first in order to install the json language server extension for coc.nvim
+    // Recommended extensions: coc-snippets, coc-json, coc-solargraph, coc-rls, coc-python, coc-java, coc-html, coc-css,
+    // coc-emmet, coc-tsserver, coc-eslint, coc-prettier
 
     "codeLens.enable": true,
     //"coc.preferences.formatOnSaveFiletypes": [java]
@@ -33,5 +35,10 @@
     "java.completion.overwrite": true,
     "java.format.onType.enabled": true,
     "java.format.settings.url": "~/.config/nvim/eclipse-java-google-style.xml",
-    "java.signatureHelp.enabled": true
+    "java.signatureHelp.enabled": true,
+
+    /////////////////////////////////
+    // coc-tsserver configurations //
+    /////////////////////////////////
+    "tsserver.npm": "/usr/local/bin/npm"
 }
