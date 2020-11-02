@@ -12,6 +12,9 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" JavaScript bundle for vim, this bundle provides syntax highlighting and improved indentation.
+Plug 'pangloss/vim-javascript'
+
 " Adaptation of Atom's one-light and one-dark colorschemes
 Plug 'rakr/vim-one'
 
@@ -391,6 +394,7 @@ nmap <silent> <leader>gd <Plug>(coc-definition)
 nmap <silent> <leader>gy <Plug>(coc-type-definition)
 nmap <silent> <leader>gi <Plug>(coc-implementation)
 nmap <silent> <leader>gr <Plug>(coc-references)
+nmap <silent> <leader>ge <Plug>(coc-diagnostic-next-error)			*n_coc-diagnostic-next-error*
 "nmap <silent> <leader>gm <Plug>(coc-rename)
 
 nmap <F6> <Plug>(coc-refactor)
@@ -549,3 +553,5 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
 autocmd FileChangedShellPost *
     \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
+" Apply syntax highlight to jinja templates
+autocmd BufNewFile,BufRead *.yml.jinja set syntax=yaml
