@@ -45,6 +45,8 @@
 
     /////////////////////////////////
     // coc-tsserver configurations //
+    // Installation:               //
+    //   :CocInstall coc-tsserver  //
     /////////////////////////////////
     "tsserver.npm": "/usr/local/bin/npm"
 }
