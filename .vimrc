@@ -12,6 +12,9 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Adds Go language support for Vim
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 " JavaScript bundle for vim, this bundle provides syntax highlighting and improved indentation.
 Plug 'pangloss/vim-javascript'
 
@@ -131,9 +134,16 @@ set noshowmode " Let vim-airline handle this
 set colorcolumn=150 " Draw a vertical line at specified column (will make screen redrawing slower)
 
 " Indentation options
-set softtabstop=4
-set shiftwidth=4
-set expandtab
+set tabstop=4 " Number of columns (whitespaces) that a <Tab> in the file counts for
+set softtabstop=4 " Number of columns a tab keypress or a backspace keypress worth
+set shiftwidth=4 " Number of columns a level of indentation worth
+set expandtab " Means that inserting a <Tab> will replace it by a number of whitespaces as defined in tabstop
+
+" Indentation options specifically for Go files
+autocmd FileType go setlocal tabstop=2
+autocmd FileType go setlocal softtabstop=2
+autocmd FileType go setlocal shiftwidth=2
+autocmd FileType go setlocal noexpandtab
 
 " Remove automatic line breaker
 set formatoptions-=tc
@@ -147,6 +157,11 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
+" Use <cWORD> to expand paths when using gx mapping. It'll make it expand full
+" URLs including its parameters (e.g. www.example.com/foo?bar=0). Be aware
+" that there is side-effects.
+let g:netrw_gx="<cWORD>"
+
 " Window split behaviour
 set splitright
 set splitbelow
@@ -159,11 +174,6 @@ set guioptions-=T " Remove toolbar
 set guioptions-=m " Remove menu bar
 set guioptions-=L " Remove left-hand scroll bar
 set guioptions-=r " Remove right-hand scroll bar
-
-" Use <cWORD> to expand paths when using gx mapping. It'll make it expand full
-" URLs including its parameters (e.g. www.example.com/foo?bar=0). Be aware
-" that there is side-effects.
-let g:netrw_gx="<cWORD>"
 
 " A buffer becomes hidden when it is abandoned (that means you can change to another buffer without having to save the
 " current one. You'll still be asked to save before leaving with :q 
@@ -555,3 +565,14 @@ autocmd FileChangedShellPost *
 
 " Apply syntax highlight to jinja templates
 autocmd BufNewFile,BufRead *.yml.jinja set syntax=yaml
+
+
+" vim-go settings
+" Enagle gopls in vim-go
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+" GoDef in split/vsplit/tab windows
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
