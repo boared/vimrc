@@ -1,3 +1,9 @@
+# Settings
+  * Turn boolean settings off by adding a `no` as a prefix. Example: `set noexpandtab`
+  * Toggle your settings in vim by adding a `!` as a suffix. Example: `set expandtab!`
+  * Check a setting in vim by adding a `?` as a suffix. Example: `set expandtab?`
+  * Set numerical values with an `=n` suffix. Example: `set tabstop=8`
+
 # Moving Around (Normal Mode)
 
 - `e` _Move to the end of a word_
@@ -116,3 +122,12 @@
 - `g<c-g>` _Show some statistics of the current buffer - normal mode_
 - `set ft=javascript` _Set syntax highlight to the current buffer. Useful when working on a non-saved buffer and you want syntax highlight._
 
+# Debugging
+
+```
+$ vim --noplugin # Open vim, load vimrc file but disable plugins
+
+$ vim -u NONE # Open vim, disable vimrc file and plugins
+
+$ vim -R # Open vim in readonly mode
+```
