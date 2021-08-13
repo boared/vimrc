@@ -22,7 +22,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'rakr/vim-one'
 
 " A tree explorer plugin for vim (:help NERDTree)
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
 Plug 'rust-lang/rust.vim'
@@ -104,6 +104,8 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" NERDTree settings
+let NERDTreeWinSize=62
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                            "CONFIGURATIONS"
