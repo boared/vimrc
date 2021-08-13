@@ -101,10 +101,6 @@
 - `i` _To enter terminal mode_
 - `<c-\><c-n>` _To exit terminal mode_
 
-# Help Pages
-- `c-]` _When the cursor is on a tag, redirects you to that session of the page_
-- `c-T` _Go back to previous tag_
-
 # Vimdiff Mode
 
 - `[c` _Jump backwards to the previous change_
