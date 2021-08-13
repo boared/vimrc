@@ -1,3 +1,7 @@
+# :help
+  * Type `:help` in Command mode to access the help of `:help`
+  * Sometimes you want to know what a particular control key means to Vim. For example, to see all help topics containing `ctrl-r`, type `:h ctrl-r` then press `Ctrl-D`
+
 # Settings
   * Turn boolean settings off by adding a `no` as a prefix. Example: `set noexpandtab`
   * Toggle your settings in vim by adding a `!` as a suffix. Example: `set expandtab!`
