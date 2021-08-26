@@ -15,17 +15,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Adds Go language support for Vim
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-" JavaScript bundle for vim, this bundle provides syntax highlighting and improved indentation.
-Plug 'pangloss/vim-javascript'
-
-" Adaptation of Atom's one-light and one-dark colorschemes
-Plug 'rakr/vim-one'
-
-" A tree explorer plugin for vim (:help NERDTree)
-Plug 'preservim/nerdtree'
-
 " Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
 Plug 'rust-lang/rust.vim'
+
+" JavaScript bundle for vim, this bundle provides syntax highlighting and improved indentation.
+Plug 'pangloss/vim-javascript'
 
 " Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -34,41 +28,24 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" Adaptation of Atom's one-light and one-dark colorschemes
+Plug 'rakr/vim-one'
+
+" A tree explorer plugin for vim (:help NERDTree)
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+
 " Lean & mean status/tabline for vim that's light as air (:help airline)
 Plug 'vim-airline/vim-airline'
 
 " Themes for vim-airline (:help airline)
 Plug 'vim-airline/vim-airline-themes'
 
+" Add icons to plugins (:help devicons)
+" Need to install a Nerd font compatible first, like https://github.com/ryanoasis/nerd-fonts
+Plug 'ryanoasis/vim-devicons'
+
 " A git wrapper so awesome, it should be illegal (:help fugitive)
 "Plug 'tpope/vim-fugitive'
-
-" Syntax checking hacks for vim (:help syntastic)
-"Plug 'vim-syntastic/syntastic'
-
-" Vim plugin that displays tags in a window, ordered by scope (:help tagbar)
-"Plug 'majutsushi/tagbar'
-
-" An Interface to WEB APIs.
-"Plug 'mattn/webapi-vim'
-
-" Text outlining and task management for Vim based on Emacs' Org-Mode
-"Plug 'jceb/vim-orgmode'
-
-" Use CTRL-A/CTRL-X to increment dates, times, and more (orgmode related)
-"Plug 'tpope/vim-speeddating'
-
-" Define a different filetype syntax on regions of a buffer (orgmode related)
-"Plug 'inkarkat/vim-SyntaxRange'
-
-" Calendar vimscript (orgmode related)
-"Plug 'mattn/calendar-vim'
-
-" Univeral Text Linking - Execute URLs, footnotes, open emails, organize ideas (orgmode related)
-"Plug 'vim-scripts/utl.vim'
-
-" repeat.vim: enable repeating supported plugin maps with "." (orgmode related)
-"Plug 'tpope/vim-repeat'
 
 call plug#end()
 
@@ -104,8 +81,10 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" NERDTree settings
-let NERDTreeWinSize=62
+" vim-devicons settings
+set guifont=Hack_Nerd_Font_Mono:h12 " If that doesn't do the trick, set your terminal's font instead
+let g:airline_powerline_fonts = 1 " Only if vim-airline is being used
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                            "CONFIGURATIONS"
@@ -178,7 +157,7 @@ set guioptions-=L " Remove left-hand scroll bar
 set guioptions-=r " Remove right-hand scroll bar
 
 " A buffer becomes hidden when it is abandoned (that means you can change to another buffer without having to save the
-" current one. You'll still be asked to save before leaving with :q 
+" current one. You'll still be asked to save before leaving with :q
 set hidden
 
 
@@ -217,6 +196,12 @@ colorscheme one
 " Prefix key for commands.
 let mapleader=","
 let maplocalleader = "\\"
+
+" Force quit all (without saving)
+nnoremap <leader>zq :qa!<cr>
+
+" Save and quit all
+nnoremap <leader>zz :wqa<cr>
 
 " Convert entire word to upper case
 nnoremap <leader>up viwU
@@ -276,6 +261,9 @@ nnoremap <esc> :noh<return><esc>
 " Toggle directory browser
 nnoremap <leader>ex :NERDTreeToggle<cr>
 
+" Toggle directory browser
+nnoremap <leader>nt :NERDTreeFocus<cr>
+
 " Toggle line number. Useful when selecting a block of text with the mouse and
 " want to avoid copy line numbers.
 nnoremap <leader>tn :set number! number?<cr>
@@ -332,35 +320,35 @@ nnoremap <leader>dw :%s/\s\+$//e<CR>
 " ### Tabs ###
 " Open a new tab and execute the given command
 ":tab <cmd>
-" 
+"
 "" Open a new tab
 ":tab split
-" 
+"
 "" Close the current tab page
 ":tabc
-" 
+"
 "" Close all other tabs
 ":tabo
-" 
+"
 "" Lists the tabs opened and the windows they contain
 ":tabs
-" 
+"
 "" Move between tabs
 ":tabn " Next tab (or gt in Normal mode)
 ":tabp " Previous tab (or gT in Normal mode)
 ":tabfirst " First tab
 ":tablast " Last tab
 ":{N}tabn " N-th tab (or {N}gt in Normal mode)
-" 
+"
 "" Move current window to new tab
 "<c-w> T
-" 
+"
 "" Move current tab to first position
 ":tabm 0
-" 
+"
 "" Move current tab to last position
 ":tabm
-" 
+"
 "" Move current tab to position i+1
 ":tabm {i}
 
