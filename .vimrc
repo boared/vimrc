@@ -12,6 +12,10 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
+" A highly extendable fuzzy finder over lists
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 " Adds Go language support for Vim
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -33,6 +37,9 @@ Plug 'rakr/vim-one'
 
 " A tree explorer plugin for vim (:help NERDTree)
 Plug 'preservim/nerdtree'
+
+" Adds syntax for nerdtree on most common file extensions.
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Lean & mean status/tabline for vim that's light as air (:help airline)
 Plug 'vim-airline/vim-airline'
