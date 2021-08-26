@@ -32,7 +32,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'rakr/vim-one'
 
 " A tree explorer plugin for vim (:help NERDTree)
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/nerdtree'
 
 " Lean & mean status/tabline for vim that's light as air (:help airline)
 Plug 'vim-airline/vim-airline'
@@ -49,8 +49,10 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
+
 " rust.vim settings
 let g:rustfmt_autosave = 1
+
 
 " syntastic settings
 "set statusline+=%#warningmsg#
@@ -62,8 +64,10 @@ let g:rustfmt_autosave = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 
+
 " vim-airline settings
 let g:airline_theme='one'
+
 
 " coc-nvim settings
 " Highlight // comments in json files (useful for coc configuration file)
@@ -81,9 +85,16 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+
 " vim-devicons settings
 set guifont=Hack_Nerd_Font_Mono:h12 " If that doesn't do the trick, set your terminal's font instead
 let g:airline_powerline_fonts = 1 " Only if vim-airline is being used
+
+
+" NERDTree settings
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
