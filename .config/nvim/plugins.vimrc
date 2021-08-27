@@ -114,3 +114,4 @@ let g:airline_powerline_fonts = 1 " Only if vim-airline is being used
 "  return !col || getline('.')[col - 1]  =~# '\s'
 "endfunction
 
+"let g:coc_snippet_next = '<tab>'
