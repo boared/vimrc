@@ -1,107 +1,9 @@
 " This config file is divided in the following sessions:
-" 1. Plugins
 " 2. Configurations
 " 3. Color Scheme
 " 4. Key Mapping
 " 5. Functions
 " 6. Experiments (things that I'm still testing or playing around)
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                                                       "PLUGINS"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('~/.local/share/nvim/plugged')
-
-" A highly extendable fuzzy finder over lists
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-" Adds Go language support for Vim
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-" Provides Rust file detection, syntax highlighting, formatting, Syntastic integration, and more. (:help rust)
-Plug 'rust-lang/rust.vim'
-
-" JavaScript bundle for vim, this bundle provides syntax highlighting and improved indentation.
-Plug 'pangloss/vim-javascript'
-
-" Coc is an intellisense engine for vim8 & neovim (:help coc-nvim)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Fuzzy finder plugin (:help fzf-vim)
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Adaptation of Atom's one-light and one-dark colorschemes
-Plug 'rakr/vim-one'
-
-" A tree explorer plugin for vim (:help NERDTree)
-Plug 'preservim/nerdtree'
-
-" Adds syntax for nerdtree on most common file extensions.
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-" Lean & mean status/tabline for vim that's light as air (:help airline)
-Plug 'vim-airline/vim-airline'
-
-" Themes for vim-airline (:help airline)
-Plug 'vim-airline/vim-airline-themes'
-
-" Add icons to plugins (:help devicons)
-" Need to install a Nerd font compatible first, like https://github.com/ryanoasis/nerd-fonts
-Plug 'ryanoasis/vim-devicons'
-
-" A git wrapper so awesome, it should be illegal (:help fugitive)
-"Plug 'tpope/vim-fugitive'
-
-call plug#end()
-
-
-" rust.vim settings
-let g:rustfmt_autosave = 1
-
-
-" syntastic settings
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-
-" vim-airline settings
-let g:airline_theme='one'
-
-
-" coc-nvim settings
-" Highlight // comments in json files (useful for coc configuration file)
-autocmd FileType json syntax match Comment +\/\/.\+$+
-
-" Navigate completion list with <Tab> and <S-Tab>
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-
-" vim-devicons settings
-set guifont=Hack_Nerd_Font_Mono:h12 " If that doesn't do the trick, set your terminal's font instead
-let g:airline_powerline_fonts = 1 " Only if vim-airline is being used
-
-
-" NERDTree settings
-" Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -111,7 +13,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 " These settings here are default in neovim
 if !has('nvim')
     " Syntax highlighting
-    syntax on
+    "syntax on
 
     " Indentation options
     set autoindent
@@ -205,6 +107,7 @@ let g:one_allow_italics = 1
 colorscheme one
 
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                                                     "KEY MAPPING"
 
@@ -277,10 +180,10 @@ xnoremap <leader>s :'<,'>sort<cr>
 nnoremap <esc> :noh<return><esc>
 
 " Toggle directory browser
-nnoremap <leader>ex :NERDTreeToggle<cr>
+nnoremap <leader>nt :NERDTreeToggle<cr>
 
-" Toggle directory browser
-nnoremap <leader>nt :NERDTreeFocus<cr>
+" Show directory browser
+nnoremap <leader>ex :NERDTreeMirror<cr>:NERDTreeFocus<cr>
 
 " Toggle line number. Useful when selecting a block of text with the mouse and
 " want to avoid copy line numbers.
@@ -522,7 +425,7 @@ set signcolumn=yes
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -572,7 +475,7 @@ autocmd FileChangedShellPost *
     \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 " Apply syntax highlight to jinja templates
-autocmd BufNewFile,BufRead *.yml.jinja set syntax=yaml
+"autocmd BufNewFile,BufRead *.yml.jinja set syntax=yaml
 
 
 " vim-go settings
