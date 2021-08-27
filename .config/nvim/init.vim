@@ -6,7 +6,7 @@ let g:python3_host_prog = '$HOME/miniconda3/bin/python3' " Run :CheckHealth in c
 
 " TODO: Move current .vimrc to separate files and source them all
 source $HOME/.config/nvim/plugins.vimrc
-"source $HOME/.vimrc/configs.vimrc
+source $HOME/.config/nvim/configs.vimrc
 "source $HOME/.vimrc/colors.vimrc
 "source $HOME/.vimrc/mappings.vimrc
 "source $HOME/.vimrc/functions.vimrc
