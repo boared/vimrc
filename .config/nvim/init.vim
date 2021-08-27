@@ -8,7 +8,7 @@ let g:python3_host_prog = '$HOME/miniconda3/bin/python3' " Run :CheckHealth in c
 source $HOME/.config/nvim/plugins.vimrc
 source $HOME/.config/nvim/configs.vimrc
 source $HOME/.config/nvim/colors.vimrc
-"source $HOME/.config/nvim/mappings.vimrc
+source $HOME/.config/nvim/mappings.vimrc
 "source $HOME/.config/nvim/lab.vimrc
 
 source $HOME/.vimrc
