@@ -13,11 +13,11 @@ let maplocalleader = "\\"
 " Plugin related Mappings "
 """""""""""""""""""""""""""
 
-" Toggle directory browser
-nnoremap <leader>nt :NERDTreeToggle<cr>
+" Toggle directory browser tree
+nnoremap <leader>tt :NERDTreeToggle<cr>
 
-" Show directory browser
-nnoremap <leader>ex :NERDTreeMirror<cr>:NERDTreeFocus<cr>
+" Open directory browser tree
+nnoremap <leader>ot :NERDTreeMirror<cr>:NERDTreeFocus<cr>
 
 " [coc-nvim] Use <cr> to confirm complete
 "inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
