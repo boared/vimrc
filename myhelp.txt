@@ -6,14 +6,15 @@ A help to help me get some help every time I forget how to do something
 ================================================================================
 CONTENTS                                                        *myhelp-contents*
 
-  1. HELP ....................................... |myhelp-help|
-  1. SETTINGS ................................... |myhelp-settings|
-  1. TERMINAL MODE .............................. |myhelp-terminal-mode|
-  1. DEBUGGING VIM ISSUES ....................... |myhelp-debug-vim-issues|
-  1. REGISTERS .................................. |myhelp-registers|
-  1. MOVING AROUND (NORMAL MODE) ................ |myhelp-moving-around|
-  1. VIMDIFF MODE ............................... |myhelp-diff-mode|
-  1. EDITING .................................... |myhelp-editing|
+  HELP ....................................... |myhelp-help|
+  MAPPINGS ................................... |myhelp-mappings|
+  SETTINGS ................................... |myhelp-settings|
+  TERMINAL MODE .............................. |myhelp-terminal-mode|
+  DEBUGGING VIM ISSUES ....................... |myhelp-debug-vim-issues|
+  REGISTERS .................................. |myhelp-registers|
+  MOVING AROUND (NORMAL MODE) ................ |myhelp-moving-around|
+  VIMDIFF MODE ............................... |myhelp-diff-mode|
+  EDITING .................................... |myhelp-editing|
 
 
 ================================================================================
@@ -25,11 +26,28 @@ Sometimes you want to know what a particular control key means to Vim. For
 example, to see all help topics containing `ctrl-r`, type `:h ctrl-r` then press
 `<c-D>`
 
-If you want to check the mapped keys, `:map` or `:help index` (command mode)
-
 `K` Run a program to lookup the word under the cursor (normal mode)
 
 `g<c-g>` show some statistics of the current buffer (normal mode)
+
+
+================================================================================
+MAPPINGS                                                        *myhelp-mappings*
+
+If you want to check the mapped keys:
+
+`:map`        List all mappings done via `:map`, `:nmap`, `:cmap`, etc.
+
+`:help index` List all default mappings
+
+Typically, `:map` will span several pages. You can use the following commands
+to redirect the output to a file:
+>
+  :redir! > /tmp/map.txt
+  :map
+  :map!
+  :redir END
+<
 
 
 ================================================================================
