@@ -15,6 +15,11 @@ if !has('nvim')
     set directory=~/.vim/tmp//,.
 endif
 
+" Ignore case in search patterns (including typing commands in command mode).
+" smartcase will override the 'ignorecase' option if the search pattern
+" contains upper case characters.
+set ignorecase
+set smartcase
 
 " Editor viewing options
 let base16colorspace=256
