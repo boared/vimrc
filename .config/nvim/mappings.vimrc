@@ -19,11 +19,14 @@ nnoremap <leader>tt :NERDTreeToggle<cr>
 " Open directory browser tree
 nnoremap <leader>ot :NERDTreeMirror<cr>:NERDTreeFocus<cr>
 
-" [coc-nvim] Use <cr> to confirm complete
-"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" [coc-nvim] Use <c-space> to trigger completion.
-"inoremap <silent><expr> <c-space> coc#refresh()
+" completion-nvim
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+"map <c-p> to manually trigger completion
+imap <silent> <c-p> <Plug>(completion_trigger)
 
 
 """""""""""""""""""""""""""
