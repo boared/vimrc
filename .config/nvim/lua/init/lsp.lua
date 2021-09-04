@@ -89,6 +89,8 @@ local signature = '<C-k>'
 local prev_issue = ']d'
 local next_issue = '[d'
 
+local lspconfig = require('lspconfig')
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -122,11 +124,31 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', next_issue, '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   --buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+      buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+      buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  end
+
+  -- Set autocommands conditional on server_capabilities
+  --if client.resolved_capabilities.document_highlight then
+  --    lspconfig.util.nvim_multiline_command [[
+  --    :hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+  --    :hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+  --    :hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+  --    augroup lsp_document_highlight
+  --        autocmd!
+  --        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+  --        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+  --    augroup END
+  --    ]]
+  --end
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local lspconfig = require('lspconfig')
 for lsp, config in pairs(servers) do
   servers[lsp]['on_attach'] = on_attach
   servers[lsp]['flags'] = { debounce_text_changes = 150 }

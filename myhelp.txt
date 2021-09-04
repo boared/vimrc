@@ -10,7 +10,7 @@ CONTENTS                                                        *myhelp-contents
   MAPPINGS ................................... |myhelp-mappings|
   SETTINGS ................................... |myhelp-settings|
   TERMINAL MODE .............................. |myhelp-terminal-mode|
-  DEBUGGING VIM ISSUES ....................... |myhelp-debug-vim-issues|
+  DEBUGGING VIM ISSUES ....................... |myhelp-debugging-vim-issues|
   REGISTERS .................................. |myhelp-registers|
   MOVING AROUND (NORMAL MODE) ................ |myhelp-moving-around|
   VIMDIFF MODE ............................... |myhelp-diff-mode|
@@ -77,25 +77,36 @@ To start a terminal in the current window `:terminal`. Then:
 ================================================================================
 DEBUGGING VIM ISSUES                                *myhelp-debugging-vim-issues*
 
+`:messages`             View previously given messages. This is especially
+                      useful when messages have been overwritten or truncated.
+
+`:echo errmsg`          Prints the most recent error message.
+
+`g<`                    The "g<" command can be used to see the last page of
+                      previous command output. This is especially useful if you
+                      accidentally typed <Space> at the hit-enter prompt.
 
 `:checkhealth`          Run all healthchecks.
 
 `:checkhealth` {plugins}
                       Run healthcheck(s) for one or more plugins. E.g. to run
-                      only the standard Nvim healthcheck: >
-                        :checkhealth nvim
-<                      To run the healthchecks for the "foo" and "bar" plugins
+                      only the standard Nvim healthcheck:
+                        `:checkhealth nvim`
+                      To run the healthchecks for the "foo" and "bar" plugins
                       (assuming these plugins are on your 'runtimepath' and
                       they have implemented health#foo#check() and
-                      health#bar#check(), respectively): >
-                        :checkhealth foo bar
-<
-Open vim to try debug issues:
->
-  $ vim --noplugin  # Open vim, load vimrc file but disable plugins
-  $ vim -u NONE     # Open vim, disable vimrc file and plugins
-  $ vim -R          # Open vim in readonly mode
-<
+                      health#bar#check(), respectively):
+                        `:checkhealth foo bar`
+
+`$ vim -V[N][file]`     Open vim in verbose mode and save logs to `[file]`
+                      Example:
+                        `$ vim -V9/tmp/myvim.log`
+
+`$ vim --noplugin`      Open vim loading vimrc file but disabling plugins
+
+`$ vim -u NONE`         Open vim disabling vimrc file and plugins
+
+`$ vim -R`              Open vim in readonly mode
 
 ================================================================================
 REGISTERS                                                      *myhelp-registers*

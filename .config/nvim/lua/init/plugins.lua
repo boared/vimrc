@@ -80,6 +80,12 @@ vim.cmd([[
 
 
 --==============================--
+--   completion-nvim settings  --
+--==============================--
+vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
+
+
+--==============================--
 --   nvim-treesitter settings   --
 --==============================--
 local ts_configs = require('nvim-treesitter.configs')
