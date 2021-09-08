@@ -1,6 +1,8 @@
 *myhelp.txt*
 
-A help to help me get some help every time I forget how to do something
+A help to help me get some help every time I forget how to do something.
+
+Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
 
 
 ================================================================================
@@ -179,3 +181,4 @@ EDITING                                                          *myhelp-editing
 - `:3,15move 40` move the content of lines 3 through 15 to bellow line 40 (command mode)
 - `:3,15copy 40` _Copy the content of lines 3 through 15 to bellow line 40 (command mode)
 - `/` or `:` then `<c-r><c-w>` copy word under cursor to command line (normal mode)
+- `@:` repeat the last command entered with `:`. Further repeats can be done with `@@` 
