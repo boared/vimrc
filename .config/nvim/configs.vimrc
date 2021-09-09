@@ -15,6 +15,9 @@ if !has('nvim')
     set directory=~/.vim/tmp//,.
 endif
 
+" Cursor in insert mode
+set guicursor+=i:blinkon1-blinkwait0-block
+
 " Ignore case in search patterns (including typing commands in command mode).
 " smartcase will override the 'ignorecase' option if the search pattern
 " contains upper case characters.
