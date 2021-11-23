@@ -4,6 +4,9 @@ local servers = {}
 -- Typescript LSP Configs
 --
 -- LSP server: typescript-language-server/typescript-language-server
+-- Install:
+--     npm install -g typescript
+--     npm install -g typescript-language-server
 --==============================================================================
 servers['tsserver'] = {}
 

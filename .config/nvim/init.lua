@@ -13,8 +13,8 @@ vim.opt.runtimepath:append(home .. [[/.vim/after]])
 vim.opt.packpath = vim.opt.runtimepath:get()
 
 -- Set up Python (run :checkhealth command if Python fails to load)
-vim.g.python_host_prog = home .. [[/miniconda3/envs/py27/bin/python2]]
-vim.g.python3_host_prog = home .. [[/miniconda3/bin/python3]]
+vim.g.python_host_prog = home .. [[/opt/miniconda3/envs/py27/bin/python2]]
+vim.g.python3_host_prog = home .. [[/opt/miniconda3/bin/python3]]
 
 require('init.plugins')
 require('init.lsp')

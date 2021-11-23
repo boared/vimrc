@@ -139,7 +139,7 @@ vim.g.airline_theme = 'one'
 --==============================--
 --   vim-devicons settings      --
 --==============================--
-vim.opt.guifont = { Hack_Nerd_Font_Mono = 'h12' } -- You may set your terminal's font instead
+vim.opt.guifont = { Hack_Nerd_Font_Mono = 'h12' } -- You may need to set your terminal's font instead
 vim.g.airline_powerline_fonts = 1 -- Only if vim-airline is being used
 
 
