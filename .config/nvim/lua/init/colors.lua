@@ -22,4 +22,21 @@ vim.cmd([[
   set background=dark
   let g:one_allow_italics = 1
   colorscheme one
+
+  " Customize vim-one color scheme background color
+  "   one#highlight(group, fg, bg, attribute)
+  call one#highlight('Normal', '', '22262E', 'none')
+  call one#highlight('Conceal', '', '22262E', '')
+  call one#highlight('ErrorMsg', '', '22262E', '')
+  call one#highlight('Folded', '', '22262E', '')
+  call one#highlight('PMenuSbar', '', '22262E', '')
+  call one#highlight('Search', '22262E', '', '')
+  call one#highlight('TabLineSel', '22262E', '', '')
+  call one#highlight('SignColumn', '', '22262E', '')
+  call one#highlight('Error', '', '22262E', '')
+  call one#highlight('Todo', '', '22262E', '')
+  call one#highlight('SpellBad', '', '22262E', '')
+  call one#highlight('SpellLocal', '', '22262E', '')
+  call one#highlight('SpellCap', '', '22262E', '')
+  call one#highlight('SpellRare',    '', '22262E', '')
 ]])

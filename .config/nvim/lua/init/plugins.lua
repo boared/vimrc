@@ -77,6 +77,7 @@ vim.cmd([[
 --==============================--
 --   nvim-lspconfig settings    --
 --==============================--
+-- See lsp.lua for language specific configurations
 
 
 --==============================--
