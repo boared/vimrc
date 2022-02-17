@@ -1,4 +1,8 @@
+-- servers contains the setup for each LSP server configured in this file.
+-- To add a new LSP server create a key/value where key is the command name
+-- of the LSP server and value a custom setup. See examples below.
 local servers = {}
+
 
 --==============================================================================
 -- Typescript LSP Configs
@@ -19,6 +23,58 @@ servers['rust_analyzer'] = {}
 
 
 --==============================================================================
+-- Go LSP Configs
+--
+-- LSP server: golang/tools/gopls
+-- Install:
+--     brew install gopls
+--==============================================================================
+servers['gopls'] = {
+  cmd = {"gopls", "serve"},
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+    },
+  },
+}
+
+-- To get your imports ordered on save, like goimports does, you can define a helper function in Lua:
+function GoImports(timeout_ms)
+  local context = { only = { "source.organizeImports" } }
+  vim.validate { context = { context, "t", true } }
+
+  local params = vim.lsp.util.make_range_params()
+  params.context = context
+
+  -- See the implementation of the textDocument/codeAction callback
+  -- (lua/vim/lsp/handler.lua) for how to do this properly.
+  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+  if not result or next(result) == nil then return end
+  local actions = result[1].result
+  if not actions then return end
+  local action = actions[1]
+
+  -- textDocument/codeAction can return either Command[] or CodeAction[]. If it
+  -- is a CodeAction, it can have either an edit, a command or both. Edits
+  -- should be executed first.
+  if action.edit or type(action.command) == "table" then
+    if action.edit then
+      vim.lsp.util.apply_workspace_edit(action.edit)
+    end
+    if type(action.command) == "table" then
+      vim.lsp.buf.execute_command(action.command)
+    end
+  else
+    vim.lsp.buf.execute_command(action)
+  end
+end
+vim.cmd([[autocmd BufWritePre *.go lua GoImports(1000)]])
+
+
+--==============================================================================
 -- Python LSP Configs
 --
 -- LSP server: python-lsp/python-lsp-server
@@ -30,23 +86,24 @@ servers['pyright'] = {}
 -- Lua LSP Configs
 --
 -- LSP server: sumneko/lua-language-server
+--
+-- Installing lua-language-server on MacOS:
+--   * brew install ninja
+--   * mkdir $HOME/.lua-language-server
+--   * cd $HOME/.lua-language-server
+--   * git clone https://github.com/sumneko/lua-language-server
+--   * cd lua-language-server
+--   * git submodule update --init --recursive
+--   * cd 3rd/luamake
+--   * ninja -f compile/ninja/macos.ninja
+--   * cd ../..
+--   * ./3rd/luamake/luamake rebuild
 --==============================================================================
 servers['sumneko_lua'] = {}
 
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system for sumneko/lua-language-server")
-end
-
 local home = os.getenv("HOME")
-local sumneko_root_path = home..[[/.lua-language-server]]
-local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+local sumneko_root_path = home..[[/.lua-language-server/lua-language-server]]
+local sumneko_binary = sumneko_root_path.."/bin/lua-language-server"
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
@@ -98,14 +155,7 @@ local lspconfig = require('lspconfig')
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  -- Set up completion-nvim
-  require'completion'.on_attach()
-
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -115,7 +165,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', go2definition, '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', go2implementation, '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', go2refereces, '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', hover, '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  --buf_set_keymap('n', hover, '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', hover, '<cmd>lua vim.diagnostic.open_float(nil, {focus=false})<CR>', opts)
   buf_set_keymap('n', signature, '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -153,9 +204,11 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 for lsp, config in pairs(servers) do
-  servers[lsp]['on_attach'] = on_attach
-  servers[lsp]['flags'] = { debounce_text_changes = 150 }
+  config['on_attach'] = on_attach
+  config['flags'] = { debounce_text_changes = 150 }
+  config['capabilities'] = capabilities
   lspconfig[lsp].setup(config)
 end
 

@@ -48,15 +48,6 @@ autocmd FileType go setlocal noexpandtab
 set formatoptions-=tc
 
 
-" Configure netrw directory browser (deprecated since I'm using NERDTree)
-"let g:netrw_sort_by = "name"
-"let g:netrw_sizestyle = "h" " Show file size in human readable format
-"let g:netrw_banner = 0 " You can still show the banner by pressing I
-"let g:netrw_liststyle = 3
-"let g:netrw_browse_split = 4
-"let g:netrw_altv = 1
-"let g:netrw_winsize = 25
-
 " Use <cWORD> to expand paths when using gx mapping. It'll make it expand full
 " URLs including its parameters (e.g. www.example.com/foo?bar=0). Be aware
 " that there is side-effects.
@@ -79,7 +70,7 @@ set guioptions-=L " Remove left-hand scroll bar
 set guioptions-=r " Remove right-hand scroll bar
 
 
-" A buffer becomes hidden when it is abandoned (that means you can change to another buffer without having to save the
+" A buffer becomes hidden when it is abandoned. That means you can change to another buffer without having to save the
 " current one. You'll still be asked to save before leaving with :q
 set hidden
 
@@ -95,10 +86,6 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
 autocmd FileChangedShellPost *
     \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
-
-" completion-nvim
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c

@@ -39,4 +39,23 @@ vim.cmd([[
   call one#highlight('SpellLocal', '', '22262E', '')
   call one#highlight('SpellCap', '', '22262E', '')
   call one#highlight('SpellRare',    '', '22262E', '')
+
+  " Customize nvim-cmp syntax highlighting
+  " gray
+  highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+  " blue
+  highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+  highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+  " light blue
+  highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+  highlight! CmpItemKindField guibg=NONE guifg=#9CDCFE
+  highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+  highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
+  " pink
+  highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
+  highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
+  " orange
+  highlight! CmpItemKindKeyword guibg=NONE guifg=#FC9303
+  highlight! CmpItemKindProperty guibg=NONE guifg=#FC9303
+  highlight! CmpItemKindUnit guibg=NONE guifg=#FC9303
 ]])
