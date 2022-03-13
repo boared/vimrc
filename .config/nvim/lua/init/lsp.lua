@@ -18,8 +18,13 @@ servers['tsserver'] = {}
 -- Rust LSP Configs
 --
 -- LSP server: rust-analyzer/rust-analyzer
+-- Extra tools: simrat39/rust-tools.nvim
+--
+-- Note: rust-tools will rust-tools automatically sets up nvim-lspconfig for
+-- rust_analyzer for you, so there is no need to do that manually
 --==============================================================================
-servers['rust_analyzer'] = {}
+--servers['rust-analyzer'] = {}
+require('rust-tools').setup({})
 
 
 --==============================================================================
@@ -99,8 +104,6 @@ servers['pyright'] = {}
 --   * cd ../..
 --   * ./3rd/luamake/luamake rebuild
 --==============================================================================
-servers['sumneko_lua'] = {}
-
 local home = os.getenv("HOME")
 local sumneko_root_path = home..[[/.lua-language-server/lua-language-server]]
 local sumneko_binary = sumneko_root_path.."/bin/lua-language-server"

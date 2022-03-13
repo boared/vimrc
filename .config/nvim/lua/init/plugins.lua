@@ -63,6 +63,13 @@ vim.cmd([[
        "EXPERIMENTATIONS"
   "========================="
 
+  " Extra rust tools for writing applications in neovim using the native lsp.
+  " This plugin adds extra functionality over rust analyzer.
+  Plug 'simrat39/rust-tools.nvim'
+
+  " Debugging (pre-requisite for rust-tools debugging)
+  Plug 'mfussenegger/nvim-dap'
+
   " Adds Go language support for Vim
   "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
