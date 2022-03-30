@@ -84,7 +84,7 @@ vim.cmd([[autocmd BufWritePre *.go lua GoImports(1000)]])
 --
 -- LSP server: python-lsp/python-lsp-server
 --==============================================================================
-servers['pyright'] = {}
+servers['pylsp'] = {}
 
 
 --==============================================================================
