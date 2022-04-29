@@ -20,11 +20,11 @@ servers['tsserver'] = {}
 -- LSP server: rust-analyzer/rust-analyzer
 -- Extra tools: simrat39/rust-tools.nvim
 --
--- Note: rust-tools will rust-tools automatically sets up nvim-lspconfig for
+-- Note: rust-tools will automatically sets up nvim-lspconfig for
 -- rust_analyzer for you, so there is no need to do that manually
 --==============================================================================
 --servers['rust-analyzer'] = {}
-require('rust-tools').setup({})
+servers['rust-tools'] = {}
 
 
 --==============================================================================
@@ -147,7 +147,7 @@ local go2declaration = 'gD'
 local go2definition = 'gd'
 local go2implementation = 'gi'
 local go2refereces = 'gr'
-local hover = 'K'
+local diagnostic = 'K'
 local signature = '<C-k>'
 local prev_issue = ']d'
 local next_issue = '[d'
@@ -168,8 +168,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', go2definition, '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', go2implementation, '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', go2refereces, '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', diagnostic, '<cmd>lua vim.diagnostic.open_float(nil, {focus=false})<CR>', opts)
   --buf_set_keymap('n', hover, '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', hover, '<cmd>lua vim.diagnostic.open_float(nil, {focus=false})<CR>', opts)
   buf_set_keymap('n', signature, '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -212,6 +212,13 @@ for lsp, config in pairs(servers) do
   config['on_attach'] = on_attach
   config['flags'] = { debounce_text_changes = 150 }
   config['capabilities'] = capabilities
-  lspconfig[lsp].setup(config)
+
+  -- rust-tools has its own setup for lsp-config, so we
+  -- add the config in { server = confg } instead
+  if lsp == 'rust-tools' then
+    require('rust-tools').setup({ server = config })
+  else
+    lspconfig[lsp].setup(config)
+  end
 end
 
