@@ -21,6 +21,7 @@ require('init.lsp')
 require('init.colors')
 
 -- TODO: Gradually move these vimrcs to ~/.config/nvim/lua/init/*.lua
+-- Consider replacing $HOME/.config/ by stdpath("config")
 vim.cmd([[
   source $HOME/.config/nvim/configs.vimrc
   source $HOME/.config/nvim/mappings.vimrc

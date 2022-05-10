@@ -90,3 +90,7 @@ autocmd FileChangedShellPost *
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
+" Set folding to use treesitter (:help folding)
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
