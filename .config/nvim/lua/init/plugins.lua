@@ -67,7 +67,7 @@ vim.cmd([[
   " This plugin adds extra functionality over rust analyzer.
   Plug 'simrat39/rust-tools.nvim'
 
-  " Debugging (pre-requisite for rust-tools debugging)
+  " Debugging capabilities
   Plug 'mfussenegger/nvim-dap'
 
   " Adds Go language support for Vim
@@ -126,8 +126,8 @@ local cmp_kinds = {
   Module = ' ',
   Operator = '  ',
   Property = '  ',
-  Reference = '  ',
-  Snippet = '  ',
+  Reference = '& ',
+  Snippet = ' ',
   Struct = 'ﬥ ',
   Text = ' ',
   TypeParameter = '  ',
@@ -161,7 +161,7 @@ cmp.setup({
   },
   mapping = {
     ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ['<C-e>'] = cmp.mapping({

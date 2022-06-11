@@ -110,6 +110,9 @@ DEBUGGING VIM ISSUES                                *myhelp-debugging-vim-issues
 
 `$ vim -R`              Open vim in readonly mode
 
+`$ tail -f ~/.cache/nvim/lsp.log`
+                        For LSP related issues
+
 ================================================================================
 REGISTERS                                                      *myhelp-registers*
 

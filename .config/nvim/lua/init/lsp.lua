@@ -1,3 +1,5 @@
+local home = os.getenv("HOME")
+
 -- servers contains the setup for each LSP server configured in this file.
 -- To add a new LSP server create a key/value where key is the command name
 -- of the LSP server and value a custom setup. See examples below.
@@ -24,7 +26,24 @@ servers['tsserver'] = {}
 -- rust_analyzer for you, so there is no need to do that manually
 --==============================================================================
 --servers['rust-analyzer'] = {}
-servers['rust-tools'] = {}
+servers['rust-tools'] = {
+    settings = {
+      -- Here is where you add rust-analyzer specific configs (https://rust-analyzer.github.io/manual.html#configuration)
+      ['rust-analyzer'] = {
+        cargo = {
+            allFeatures = true, -- allows feature-gated code to be analyzed
+            target = "armv7-linux-androideabi", -- allows rust-analyzer to lint on android compilation target
+        },
+        checkOnSave = {
+            allTargets = false,
+            command = "clippy",
+        },
+      }
+    },
+    -- standalone file support
+    -- setting it to false may improve startup time
+    standalone = true,
+}
 
 
 --==============================================================================
@@ -88,6 +107,61 @@ servers['pylsp'] = {}
 
 
 --==============================================================================
+-- Java LSP Configs
+--
+-- LSP server: eclipse/eclipse.jdt.ls
+--==============================================================================
+local java_home ="/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home"
+local jdtls_path = home..[[/.jdtls]]
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+local workspace_dir = home..'/workplace/jdtls-projects/' .. project_name
+
+servers['jdtls'] = {
+
+  -- The command that starts the language server
+  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+  cmd = {
+    java_home..[[/bin/java]],
+
+    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+    '-Dosgi.bundles.defaultStartLevel=4',
+    '-Declipse.product=org.eclipse.jdt.ls.core.product',
+    '-Dlog.protocol=true',
+    '-Dlog.level=ALL',
+    '-Xms1g',
+    "-Xmx2G",
+    '--add-modules=ALL-SYSTEM',
+    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+
+    '-jar', jdtls_path..'/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+
+    '-configuration', jdtls_path..'/config_mac',
+
+    '-data', workspace_dir
+  },
+
+  filetypes = { "java" },
+
+  init_options = {
+    jvm_args = {},
+    workspace = workspace_dir
+  },
+
+  root_dir = function() return require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}) end,
+
+  single_file_support = true,
+
+  handlers = {
+    ["language/status"] = function() end,
+    ["textDocument/codeAction"] = function() end,
+    ["textDocument/rename"] = function() end,
+    ["workspace/applyEdit"] = function() end,
+  },
+}
+
+
+--==============================================================================
 -- Lua LSP Configs
 --
 -- LSP server: sumneko/lua-language-server
@@ -104,7 +178,6 @@ servers['pylsp'] = {}
 --   * cd ../..
 --   * ./3rd/luamake/luamake rebuild
 --==============================================================================
-local home = os.getenv("HOME")
 local sumneko_root_path = home..[[/.lua-language-server/lua-language-server]]
 local sumneko_binary = sumneko_root_path.."/bin/lua-language-server"
 

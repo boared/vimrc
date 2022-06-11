@@ -20,6 +20,9 @@ nnoremap <leader>tt :NERDTreeToggle<cr>
 " Open directory browser tree
 nnoremap <leader>ot :NERDTreeMirror<cr>:NERDTreeFocus<cr>
 
+" Focus on browser tree
+nnoremap <leader>tf :NERDTreeFocus<cr>
+
 
 
 """""""""""""""""""""""""""
