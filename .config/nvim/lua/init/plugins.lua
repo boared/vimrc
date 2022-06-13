@@ -77,6 +77,10 @@ vim.cmd([[
   " integration, and more. (:help rust)
   "Plug 'rust-lang/rust.vim'
 
+  " Preview markdown on your modern browser with synchronised scrolling and flexible configuration
+  " Depends on node and yarn to be installed
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
   call plug#end()
 ]])
 
