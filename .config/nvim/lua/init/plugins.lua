@@ -340,3 +340,20 @@ vim.g.airline_powerline_fonts = 1 -- Only if vim-airline is being used
 --==============================--
 --vim.g.rustfmt_autosave = 1
 
+
+--====================================--
+--   markdown-preview.nvim settings   --
+--====================================--
+-- Set to 1, the vim will refresh markdown when save the buffer or
+-- leave from insert mode, default 0 is auto refresh markdown as you edit or
+-- move the cursor
+-- default: 0
+vim.g.mkdp_refresh_slow = 1
+
+-- Open preview in a separate window
+vim.cmd([[
+    function OpenMarkdownPreview (url)
+        execute "silent ! /Applications/Firefox.app/Contents/MacOS/firefox --new-window " . a:url
+    endfunction
+    let g:mkdp_browserfunc = 'OpenMarkdownPreview'
+]])
