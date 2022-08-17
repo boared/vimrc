@@ -25,6 +25,10 @@ vim.cmd([[
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/cmp-cmdline'
 
+  " Extra rust tools for writing applications in neovim using the native lsp.
+  " This plugin adds extra functionality over rust analyzer.
+  Plug 'simrat39/rust-tools.nvim'
+
   " nvim-treesitter wraps the Neovim treesitter API to provide functionnalities
   " such as highlighting and incremental selection, and a command to easily
   " install parsers.
@@ -37,22 +41,11 @@ vim.cmd([[
   " Adaptation of Atom's one-light and one-dark colorschemes
   Plug 'rakr/vim-one'
 
-  " A tree explorer plugin for vim (:help NERDTree)
-  Plug 'preservim/nerdtree'
-
-  " Adds syntax for nerdtree on most common file extensions.
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
   " Lean & mean status/tabline for vim that's light as air (:help airline)
   Plug 'vim-airline/vim-airline'
 
   " Themes for vim-airline (:help airline)
   Plug 'vim-airline/vim-airline-themes'
-
-  " Add icons to plugins (:help devicons)
-  " Need to install a Nerd font compatible first,
-  " e.g. https://github.com/ryanoasis/nerd-fonts
-  Plug 'ryanoasis/vim-devicons'
 
   " A highly extendable fuzzy finder over lists
   Plug 'nvim-lua/plenary.nvim'
@@ -63,23 +56,30 @@ vim.cmd([[
        "EXPERIMENTATIONS"
   "========================="
 
-  " Extra rust tools for writing applications in neovim using the native lsp.
-  " This plugin adds extra functionality over rust analyzer.
-  Plug 'simrat39/rust-tools.nvim'
-
   " Debugging capabilities
   Plug 'mfussenegger/nvim-dap'
 
   " Adds Go language support for Vim
   "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-  " Provides Rust file detection, syntax highlighting, formatting, Syntastic
-  " integration, and more. (:help rust)
-  "Plug 'rust-lang/rust.vim'
-
   " Preview markdown on your modern browser with synchronised scrolling and flexible configuration
   " Depends on node and yarn to be installed
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
+  " A File Explorer For Neovim Written In Lua
+  Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
+
+  " A tree explorer plugin for vim (:help NERDTree)
+  "Plug 'preservim/nerdtree'
+
+  " Adds syntax for nerdtree on most common file extensions.
+  "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+  " Add icons to plugins (:help devicons)
+  " Need to install a Nerd font compatible first,
+  " e.g. https://github.com/ryanoasis/nerd-fonts
+  "Plug 'ryanoasis/vim-devicons'
 
   call plug#end()
 ]])
@@ -172,7 +172,7 @@ cmp.setup({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -357,3 +357,28 @@ vim.cmd([[
     endfunction
     let g:mkdp_browserfunc = 'OpenMarkdownPreview'
 ]])
+
+
+
+
+--============================--
+--   nvim-tree.lua settings   --
+--============================--
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+        { key = "s", action = "vsplit" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})

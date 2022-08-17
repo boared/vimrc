@@ -5,27 +5,15 @@ local home = os.getenv("HOME")
 -- of the LSP server and value a custom setup. See examples below.
 local servers = {}
 
-
---==============================================================================
--- Typescript LSP Configs
---
--- LSP server: typescript-language-server/typescript-language-server
--- Install:
---     npm install -g typescript
---     npm install -g typescript-language-server
---==============================================================================
-servers['tsserver'] = {}
-
 --==============================================================================
 -- Rust LSP Configs
 --
 -- LSP server: rust-analyzer/rust-analyzer
 -- Extra tools: simrat39/rust-tools.nvim
 --
--- Note: rust-tools will automatically sets up nvim-lspconfig for
+-- Note: rust-tools will automatically set up nvim-lspconfig for
 -- rust_analyzer for you, so there is no need to do that manually
 --==============================================================================
---servers['rust-analyzer'] = {}
 servers['rust-tools'] = {
     settings = {
       -- Here is where you add rust-analyzer specific configs (https://rust-analyzer.github.io/manual.html#configuration)
@@ -44,6 +32,17 @@ servers['rust-tools'] = {
     -- setting it to false may improve startup time
     standalone = true,
 }
+
+
+--==============================================================================
+-- Typescript LSP Configs
+--
+-- LSP server: typescript-language-server/typescript-language-server
+-- Install:
+--     npm install -g typescript
+--     npm install -g typescript-language-server
+--==============================================================================
+servers['tsserver'] = {}
 
 
 --==============================================================================
@@ -111,54 +110,54 @@ servers['pylsp'] = {}
 --
 -- LSP server: eclipse/eclipse.jdt.ls
 --==============================================================================
-local java_home ="/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home"
-local jdtls_path = home..[[/.jdtls]]
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-local workspace_dir = home..'/workplace/jdtls-projects/' .. project_name
-
-servers['jdtls'] = {
-
-  -- The command that starts the language server
-  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-  cmd = {
-    java_home..[[/bin/java]],
-
-    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-    '-Dosgi.bundles.defaultStartLevel=4',
-    '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
-    '-Xms1g',
-    "-Xmx2G",
-    '--add-modules=ALL-SYSTEM',
-    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-
-    '-jar', jdtls_path..'/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
-
-    '-configuration', jdtls_path..'/config_mac',
-
-    '-data', workspace_dir
-  },
-
-  filetypes = { "java" },
-
-  init_options = {
-    jvm_args = {},
-    workspace = workspace_dir
-  },
-
-  root_dir = function() return require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}) end,
-
-  single_file_support = true,
-
-  handlers = {
-    ["language/status"] = function() end,
-    ["textDocument/codeAction"] = function() end,
-    ["textDocument/rename"] = function() end,
-    ["workspace/applyEdit"] = function() end,
-  },
-}
+--local java_home ="/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home"
+--local jdtls_path = home..[[/.jdtls]]
+--local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+--local workspace_dir = home..'/workplace/jdtls-projects/' .. project_name
+--
+--servers['jdtls'] = {
+--
+--  -- The command that starts the language server
+--  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+--  cmd = {
+--    java_home..[[/bin/java]],
+--
+--    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+--    '-Dosgi.bundles.defaultStartLevel=4',
+--    '-Declipse.product=org.eclipse.jdt.ls.core.product',
+--    '-Dlog.protocol=true',
+--    '-Dlog.level=ALL',
+--    '-Xms1g',
+--    "-Xmx2G",
+--    '--add-modules=ALL-SYSTEM',
+--    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+--    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+--
+--    '-jar', jdtls_path..'/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+--
+--    '-configuration', jdtls_path..'/config_mac',
+--
+--    '-data', workspace_dir
+--  },
+--
+--  filetypes = { "java" },
+--
+--  init_options = {
+--    jvm_args = {},
+--    workspace = workspace_dir
+--  },
+--
+--  root_dir = function() return require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}) end,
+--
+--  single_file_support = true,
+--
+--  handlers = {
+--    ["language/status"] = function() end,
+--    ["textDocument/codeAction"] = function() end,
+--    ["textDocument/rename"] = function() end,
+--    ["workspace/applyEdit"] = function() end,
+--  },
+--}
 
 
 --==============================================================================
@@ -250,10 +249,10 @@ local on_attach = function(client, bufnr)
   --buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', rename, '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   --buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  --buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', prev_issue, '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', next_issue, '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  --buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', prev_issue, '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', next_issue, '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
   --buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities

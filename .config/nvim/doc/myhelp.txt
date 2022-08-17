@@ -1,6 +1,6 @@
 *myhelp.txt*
 
-A help to help me get some help every time I forget how to do something.
+A help to help me get some help every time I'm helpless.
 
 Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
 
@@ -24,13 +24,19 @@ HELP                                                                *myhelp-help
 
 Type `:help` in command mode to access the help of `help` command
 
-Sometimes you want to know what a particular control key means to Vim. For
+Sometimes you want to know what a particular control key means in Vim. For
 example, to see all help topics containing `ctrl-r`, type `:h ctrl-r` then press
 `<c-D>`
 
 `K` Run a program to lookup the word under the cursor (normal mode)
 
 `g<c-g>` show some statistics of the current buffer (normal mode)
+
+`:set fileformat?` show what's the file format of current buffer (unix, dos, mac)
+`$ vim -b` to open vim in binary format (text files will show CR characters)
+`:e ++ff=unix` to edit a file in unix format (will also show CR characters
+`:set list` will show hidden characters
+`:set listchars?` shows what chars to show, when `list` is set, for each hidden char (like `\n`, tab, etc.)
 
 
 ================================================================================
@@ -112,6 +118,36 @@ DEBUGGING VIM ISSUES                                *myhelp-debugging-vim-issues
 
 `$ tail -f ~/.cache/nvim/lsp.log`
                         For LSP related issues
+
+`$ vim -b`              Open vim in binary mode (you can see all invisible chars in a text file for example)
+
+--------------------------------------------------------------------------------
+Profile:~
+
+Vim has a built-in profiler (:help profile)
+
+To profile all scripts and all functions:
+>
+  :profile start /tmp/profile.log // where profiler results will be stored
+  :profile file * // profile all script files
+  :profile func * // profile all functions
+  :profile stop // write down the logs and stop profiling
+<
+
+Open `/tmp/profile.log` and at the bottom will see a summary of total time spent by each function/script sorted
+in descending order by time
+
+Then you can test opening vim and disabling a specific plugin:
+>
+  Like this:
+  $ vim --cmd "let g:loaded_<plugin_name> = 1"
+
+  For example, to disable vim-airline:
+  $ vim --cmd "let g:loaded_airline = 1"
+<
+
+Note: Not all plugins implement the `g:loaded_<plugin_name>`
+
 
 ================================================================================
 REGISTERS                                                      *myhelp-registers*

@@ -5,9 +5,6 @@
 " Remove trailing whitespace in the whole file
 nnoremap <leader>dw :%s/\s\+$//e<CR>
 
-" Break a line where the cursor is in normal mode
-nnoremap <leader>bl i<CR><ESC>
-
 " Windows resizing
 nnoremap <leader>a <c-w>10<
 nnoremap <leader>d <c-w>10>

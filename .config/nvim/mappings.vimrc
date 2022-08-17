@@ -15,13 +15,10 @@ let maplocalleader = "\\"
 """""""""""""""""""""""""""
 
 " Toggle directory browser tree
-nnoremap <leader>tt :NERDTreeToggle<cr>
-
-" Open directory browser tree
-nnoremap <leader>ot :NERDTreeMirror<cr>:NERDTreeFocus<cr>
+nnoremap <leader>tt :NvimTreeToggle<cr>
 
 " Focus on browser tree
-nnoremap <leader>tf :NERDTreeFocus<cr>
+nnoremap <leader>tf :NvimTreeFocus<cr>
 
 
 
@@ -92,8 +89,11 @@ nnoremap <esc> :noh<cr><esc>
 
 " Toggle line number. Useful when selecting a block of text with the mouse and
 " want to avoid copy line numbers.
-nnoremap <leader>tn :set number! number?<cr>
+nnoremap <leader>ln :set number! number?<cr>
 
 " Toggle line wrap
-nnoremap <leader>tw :set wrap! wrap?<cr>
+nnoremap <leader>lw :set wrap! wrap?<cr>
+
+" Break a line where the cursor is in normal mode
+nnoremap <leader>bl a<CR><ESC>
 
