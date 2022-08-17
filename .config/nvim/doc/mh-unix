@@ -1,8 +1,18 @@
-*myhelp.txt*
+*mh-unix*
 
-A help to help me get some help every time I'm helpless.
+All the unix terminal commands and tips my brain keeps moving to the junk folder.
 
 Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
+
+[WIP]
+
+`id` Prints the real and effective user and group IDs (https://linuxize.com/post/id-command-in-linux/)
+
+
+
+
+
+
 
 
 ================================================================================
@@ -121,33 +131,6 @@ DEBUGGING VIM ISSUES                                *myhelp-debugging-vim-issues
 
 `$ vim -b`              Open vim in binary mode (you can see all invisible chars in a text file for example)
 
---------------------------------------------------------------------------------
-Profile:~
-
-Vim has a built-in profiler (:help profile)
-
-To profile all scripts and all functions:
->
-  :profile start /tmp/profile.log // where profiler results will be stored
-  :profile file * // profile all script files
-  :profile func * // profile all functions
-  :profile stop // write down the logs and stop profiling
-<
-
-Open `/tmp/profile.log` and at the bottom will see a summary of total time spent by each function/script sorted
-in descending order by time
-
-Then you can test opening vim and disabling a specific plugin:
->
-  Like this:
-  $ vim --cmd "let g:loaded_<plugin_name> = 1"
-
-  For example, to disable vim-airline:
-  $ vim --cmd "let g:loaded_airline = 1"
-<
-
-Note: Not all plugins implement the `g:loaded_<plugin_name>`
-
 
 ================================================================================
 REGISTERS                                                      *myhelp-registers*
@@ -221,5 +204,3 @@ EDITING                                                          *myhelp-editing
 - `:3,15copy 40` _Copy the content of lines 3 through 15 to bellow line 40 (command mode)
 - `/` or `:` then `<c-r><c-w>` copy word under cursor to command line (normal mode)
 - `@:` repeat the last command entered with `:`. Further repeats can be done with `@@` 
-
-vim:tw=78:ts=8:ft=help:norl:
