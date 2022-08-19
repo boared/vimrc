@@ -26,4 +26,5 @@ vim.cmd([[
   source $HOME/.config/nvim/configs.vimrc
   source $HOME/.config/nvim/mappings.vimrc
   source $HOME/.config/nvim/lab.vimrc
+  source $HOME/.config/nvim/autocmd.vimrc
 ]])
