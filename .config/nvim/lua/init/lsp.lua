@@ -15,6 +15,15 @@ local servers = {}
 -- rust_analyzer for you, so there is no need to do that manually
 --==============================================================================
 servers['rust-tools'] = {
+  tools = { -- rust-tools options
+    -- callback to execute once rust-analyzer is done initializing the workspace
+    -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+    on_initialized = function (server)
+        print("rust-analyer initialization done: " .. server.health)
+    end,
+  },
+
+  server = {
     settings = {
       -- Here is where you add rust-analyzer specific configs (https://rust-analyzer.github.io/manual.html#configuration)
       ['rust-analyzer'] = {
@@ -31,6 +40,7 @@ servers['rust-tools'] = {
     -- standalone file support
     -- setting it to false may improve startup time
     standalone = true,
+  }
 }
 
 
@@ -221,9 +231,10 @@ local go2implementation = 'gi'
 local go2refereces = 'gr'
 local diagnostic = 'K'
 local signature = '<C-k>'
-local prev_issue = ']d'
-local next_issue = '[d'
+local prev_issue = 'g['
+local next_issue = 'g]'
 local rename = '<leader>rn'
+local code_action = 'ga'
 
 local lspconfig = require('lspconfig')
 
@@ -241,19 +252,11 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', go2implementation, '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', go2refereces, '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', diagnostic, '<cmd>lua vim.diagnostic.open_float(nil, {focus=false})<CR>', opts)
-  --buf_set_keymap('n', hover, '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', signature, '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  --buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', rename, '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  --buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  --buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', code_action, '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', prev_issue, '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', next_issue, '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
-  --buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -281,15 +284,17 @@ end
 -- map buffer local keybindings when the language server attaches
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 for lsp, config in pairs(servers) do
-  config['on_attach'] = on_attach
-  config['flags'] = { debounce_text_changes = 150 }
-  config['capabilities'] = capabilities
-
   -- rust-tools has its own setup for lsp-config, so we
-  -- add the config in { server = confg } instead
+  -- add the configs to { server = confg } instead
   if lsp == 'rust-tools' then
-    require('rust-tools').setup({ server = config })
+    config.server['on_attach'] = on_attach
+    config.server['flags'] = { debounce_text_changes = 150 }
+    config.server['capabilities'] = capabilities
+    require('rust-tools').setup(config)
   else
+    config['on_attach'] = on_attach
+    config['flags'] = { debounce_text_changes = 150 }
+    config['capabilities'] = capabilities
     lspconfig[lsp].setup(config)
   end
 end
