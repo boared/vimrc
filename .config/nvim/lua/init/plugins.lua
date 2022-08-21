@@ -51,6 +51,10 @@ vim.cmd([[
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
 
+  " A File Explorer For Neovim Written In Lua
+  Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
+
 
   "========================="
        "EXPERIMENTATIONS"
@@ -65,10 +69,6 @@ vim.cmd([[
   " Preview markdown on your modern browser with synchronised scrolling and flexible configuration
   " Depends on node and yarn to be installed
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-
-  " A File Explorer For Neovim Written In Lua
-  Plug 'kyazdani42/nvim-tree.lua'
-  Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
 
   " A tree explorer plugin for vim (:help NERDTree)
   "Plug 'preservim/nerdtree'
@@ -335,12 +335,6 @@ vim.opt.guifont = { Hack_Nerd_Font_Mono = 'h12' } -- You may need to set your te
 vim.g.airline_powerline_fonts = 1 -- Only if vim-airline is being used
 
 
---==============================--
---   rust.vim settings          --
---==============================--
---vim.g.rustfmt_autosave = 1
-
-
 --====================================--
 --   markdown-preview.nvim settings   --
 --====================================--
@@ -357,8 +351,6 @@ vim.cmd([[
     endfunction
     let g:mkdp_browserfunc = 'OpenMarkdownPreview'
 ]])
-
-
 
 
 --============================--
