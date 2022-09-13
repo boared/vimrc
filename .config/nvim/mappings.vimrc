@@ -59,8 +59,8 @@ nnoremap <leader>hs :split<cr>
 " Split window vertically
 nnoremap <leader>vs :vsplit<cr>
 
-" List all existing buffers using fzf
-nnoremap <leader>ls :Buffers<cr>
+" List all existing buffers using Telescope
+nnoremap <leader>ls :Telescope buffers<cr>
 
 " Go to next buffer
 nnoremap <space> :bn<cr>
