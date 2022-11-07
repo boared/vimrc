@@ -14,8 +14,8 @@ vim.cmd([[
   "
   " nvim-cmp: Completion engine plugin
   " cmp-nvim-lsp: nvim-cmp source for neovim's built-in language server client
-  " vim-vsnip: VSCode(LSP)'s snippet feature in vim
   " cmp-vsnip: nvim-cmp source for vim-vsnip
+  " vim-vsnip: VSCode(LSP)'s snippet feature in vim
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-vsnip'
@@ -60,26 +60,18 @@ vim.cmd([[
        "EXPERIMENTATIONS"
   "========================="
 
+  " Extensions for nvim-lsp for eclipse.jdt.ls
+  Plug 'mfussenegger/nvim-jdtls'
+
   " Debugging capabilities
   Plug 'mfussenegger/nvim-dap'
-
-  " Adds Go language support for Vim
-  "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
   " Preview markdown on your modern browser with synchronised scrolling and flexible configuration
   " Depends on node and yarn to be installed
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
-  " A tree explorer plugin for vim (:help NERDTree)
-  "Plug 'preservim/nerdtree'
-
-  " Adds syntax for nerdtree on most common file extensions.
-  "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-  " Add icons to plugins (:help devicons)
-  " Need to install a Nerd font compatible first,
-  " e.g. https://github.com/ryanoasis/nerd-fonts
-  "Plug 'ryanoasis/vim-devicons'
+  " Adds Go language support for Vim
+  "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
   call plug#end()
 ]])
