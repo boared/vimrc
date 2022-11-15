@@ -1,0 +1,3 @@
+Edit command in $EDITOR then return to shell
+
+In zsh with oh-my-zsh installed: c-x + c-e
