@@ -27,7 +27,8 @@ vim.cmd([[
 
   " Extra rust tools for writing applications in neovim using the native lsp.
   " This plugin adds extra functionality over rust analyzer.
-  Plug 'simrat39/rust-tools.nvim'
+  "Plug 'simrat39/rust-tools.nvim'
+  Plug 'kdarkhan/rust-tools.nvim' " Use this fork until https://github.com/simrat39/rust-tools.nvim/pull/307 is merged
 
   " nvim-treesitter wraps the Neovim treesitter API to provide functionnalities
   " such as highlighting and incremental selection, and a command to easily
