@@ -173,13 +173,13 @@ servers['pylsp'] = {}
 --==============================================================================
 -- Lua LSP Configs
 --
--- LSP server: sumneko/lua-language-server
+-- LSP server: LuasLS/lua-language-server
 --
 -- Installing lua-language-server on MacOS:
 --   * brew install ninja
 --   * mkdir $HOME/.lua-language-server
 --   * cd $HOME/.lua-language-server
---   * git clone https://github.com/sumneko/lua-language-server
+--   * git clone https://github.com/LuaLS/lua-language-server
 --   * cd lua-language-server
 --   * git submodule update --init --recursive
 --   * cd 3rd/luamake
@@ -187,15 +187,15 @@ servers['pylsp'] = {}
 --   * cd ../..
 --   * ./3rd/luamake/luamake rebuild
 --==============================================================================
-local sumneko_root_path = home..[[/.lua-language-server/lua-language-server]]
-local sumneko_binary = sumneko_root_path.."/bin/lua-language-server"
+local lua_ls_root_path = home..[[/.lua-language-server/lua-language-server]]
+local lua_ls_binary = lua_ls_root_path.."/bin/lua-language-server"
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-servers['sumneko_lua'] = {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+servers['lua_ls'] = {
+  cmd = {lua_ls_binary, "-E", lua_ls_root_path .. "/main.lua"},
   settings = {
     Lua = {
       runtime = {
