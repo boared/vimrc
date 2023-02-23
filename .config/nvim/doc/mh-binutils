@@ -1,0 +1,30 @@
+*mh-binutils*
+
+Useful cookbook to get information from binary files
+
+Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
+
+
+================================================================================
+CONTENTS                                                  *mh-binutils-contents*
+
+  OBJECT FILES .......................................... |mh-binutils-objfiles|
+
+
+================================================================================
+OBJECT FILES                                              *mh-binutils-objfiles*
+
+`objdump` Displays information about one or more object files.
+
+Examples:
+
+Disassemble sections which are expected to contain instructions
+`$ objdump --disassemble lib.so`
+
+Disassemble all sections
+`$ objdump --disassemble-all lib.so`
+
+Display all available header information, including the symbol table and relocation entries
+`$ objdump --all-headers lib.so`
+
+vim:tw=78:ts=8:ft=help:norl:
