@@ -43,6 +43,13 @@ servers['rust-tools'] = {
   }
 }
 
+--==============================================================================
+-- C/C++ LSP Configs
+--
+-- LSP server: clangd
+--
+--==============================================================================
+servers['clangd'] = { }
 
 --==============================================================================
 -- Typescript LSP Configs
@@ -283,10 +290,10 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-for lsp, config in pairs(servers) do
+for server, config in pairs(servers) do
   -- rust-tools has its own setup for lsp-config, so we
   -- add the configs to { server = confg } instead
-  if lsp == 'rust-tools' then
+  if server == 'rust-tools' then
     config.server['on_attach'] = on_attach
     config.server['flags'] = { debounce_text_changes = 150 }
     config.server['capabilities'] = capabilities
@@ -295,7 +302,7 @@ for lsp, config in pairs(servers) do
     config['on_attach'] = on_attach
     config['flags'] = { debounce_text_changes = 150 }
     config['capabilities'] = capabilities
-    lspconfig[lsp].setup(config)
+    lspconfig[server].setup(config)
   end
 end
 
