@@ -1,0 +1,95 @@
+*mh-shell.txt* Shell tips and tricks
+
+
+Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
+
+
+================================================================================
+CONTENTS                                                      *mh-shell-contents*
+
+  CONTROL OPERATORS ......................................... |mh-shell-control|
+  REDIRECTION OPERATORS ..................................... |mh-shell-redirect|
+  COMMANDS .................................................. |mh-shell-commands|
+
+
+================================================================================
+CONTROL OPERATORS                                              *mh-shell-control*
+
+These are tokens that performs a control function:
+
+`&  &&  (  )  ;  ;;  <newline>  |  ||`
+
+List terminators:~
+
+`cmd_a; cmd_b` will run `cmd_b` after `cmd_a` has finished (successfully or not)
+
+`cmd_a &` this will make `cmd_a` to run in the background. If another command is
+          given after the `&`, it will start to run immediately.
+
+Logical operators:~
+
+`cmd_a && cmd_b` equivalent to a logic AND. `cmd_b` will only execute if `cmd_a` succeeds (exit code 0)
+
+`cmd_a || cmd_b` equivalent to a logic OR. `cmd_b` will only execute if `cmd_a` fails
+
+`! cmd_a` negates the return status of `cmd_a` (returns 0 if the command fails, otherwise, returns 1)
+
+Pipe operator:~
+
+`cmd_a | cmd_b` passes the output of `cmd_a` as input of `cmd_b`
+
+`cmd_a |& cmd_b` a shorthand for `2>&1 |` in bash and zsh. It passes both stdout and stderr of `cmd_a`
+                 as input to `cmd_b`
+
+Other list punctuation:~
+
+`;;` used solely to mark the end of a case statement. Example:
+
+>
+    case $ANIMAL in
+      horse | dog | cat) echo -n "four legs";;
+      man | kangaroo ) echo -n "two legs";;
+      *) echo -n "an unknown number of legs";;
+    esac
+<
+
+`(` and `)` are used to group commands and launch them in a subshell
+
+`{` and `}` also used to group commands but do not launch them in a subshell
+
+
+================================================================================
+REDIRECTION OPERATORS                                         *mh-shell-redirect*
+
+These are the tokens that performs a redirection function:
+
+`<  >  >|  <<  >>  <&  >&  <<-  <>`
+
+`cmd_a < file.txt` gives `file.txt` as input to `cmd_a`
+
+`cmd_a <> file.txt` same as above but now the file is open in read+write mode
+
+`cmd_a > out.txt` directs the output of `cmd_a` to `out.txt`
+
+`cmd_a 2> error.txt` directs standard error of `cmd_a` to `error.txt`
+
+The commands above can be combined. For example:
+
+`cmd_a < in.txt > out.txt 2> err.txt`
+
+`cmd_a >| out.txt` same as `>` but will overwrite even if the shell has been
+                   configured to refuse overwriting (`set -C` or `set -o noclobber`)
+
+`cmd_a >> out.txt` same as `>` but will append to an existing file
+
+`>&`, `&>`,`>>&`, `&>>` when the right side is a file, redirect both stdout and stderr,
+                        replacing or appending
+
+
+================================================================================
+COMMANDS                                                      *mh-shell-commands*
+
+* Edit command in $EDITOR then return to shell:
+    In zsh with oh-my-zsh installed: c-x + c-e
+
+vim:tw=78:ts=8:ft=help:norl:
