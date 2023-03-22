@@ -1,202 +1,27 @@
 *mh-tmux*
 
-A help to help me get some help every time I forget how to do something.
+MyHelp: Tmux cookbook
 
 Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
 
 
 ================================================================================
-CONTENTS                                                        *myhelp-contents*
+CONTENTS                                                       *mh-tmux-contents*
 
-  HELP ....................................... |myhelp-help|
-  MAPPINGS ................................... |myhelp-mappings|
-  SETTINGS ................................... |myhelp-settings|
-  TERMINAL MODE .............................. |myhelp-terminal-mode|
-  DEBUGGING VIM ISSUES ....................... |myhelp-debugging-vim-issues|
-  REGISTERS .................................. |myhelp-registers|
-  MOVING AROUND (NORMAL MODE) ................ |myhelp-moving-around|
-  VIMDIFF MODE ............................... |myhelp-diff-mode|
-  EDITING .................................... |myhelp-editing|
+  CONFIG FILE ....................................... |mh-tmux-config|
 
 
 ================================================================================
-HELP                                                                *myhelp-help*
+CONFIG FIlE                                                      *mh-tmux-config*
 
-Type `:help` in command mode to access the help of `help` command
+You can create a `.tmux.conf` file in `$HOME`
 
-Sometimes you want to know what a particular control key means in Vim. For
-example, to see all help topics containing `ctrl-r`, type `:h ctrl-r` then press
-`<c-D>`
-
-`K` Run a program to lookup the word under the cursor (normal mode)
-
-`g<c-g>` show some statistics of the current buffer (normal mode)
-
-`:set fileformat?` show what's the file format of current buffer (unix, dos, mac)
-`$ vim -b` to open vim in binary format (text files will show CR characters)
-`:e ++ff=unix` to edit a file in unix format (will also show CR characters
-`:set list` will show hidden characters
-`:set listchars?` shows what chars to show, when `list` is set, for each hidden char (like `\n`, tab, etc.)
-
-
-================================================================================
-MAPPINGS                                                        *myhelp-mappings*
-
-If you want to check the mapped keys:
-
-`:map`        List all mappings done via `:map`, `:nmap`, `:cmap`, etc.
-
-`:help index` List all default mappings
-
-Typically, `:map` will span several pages. You can use the following commands
-to redirect the output to a file:
->
-  :redir! > /tmp/map.txt
-  :map
-  :map!
-  :redir END
-<
-
-
-================================================================================
-SETTINGS                                                        *myhelp-settings*
-
-Turn boolean settings off by adding a `no` as a prefix.
-Example: `set noexpandtab`
-
-Toggle your settings in vim by adding a `!` as a suffix.
-Example: `set expandtab!`
-
-Check a setting in vim by adding a `?` as a suffix.
-Example: `set expandtab?`
-
-Set numerical values with an `=n` suffix.
-Example: `set tabstop=8`
-
-
-================================================================================
-TERMINAL MODE                                              *myhelp-terminal-mode*
-
-To start a terminal in the current window `:terminal`. Then:
-  - `i` to enter terminal mode
-  - `<c-\><c-n>` to exit terminal mode
-
-
-================================================================================
-DEBUGGING VIM ISSUES                                *myhelp-debugging-vim-issues*
-
-`:messages`             View previously given messages. This is especially
-                      useful when messages have been overwritten or truncated.
-
-`:echo errmsg`          Prints the most recent error message.
-
-`g<`                    The "g<" command can be used to see the last page of
-                      previous command output. This is especially useful if you
-                      accidentally typed <Space> at the hit-enter prompt.
-
-`:checkhealth`          Run all healthchecks.
-
-`:checkhealth` {plugins}
-                      Run healthcheck(s) for one or more plugins. E.g. to run
-                      only the standard Nvim healthcheck:
-                        `:checkhealth nvim`
-                      To run the healthchecks for the "foo" and "bar" plugins
-                      (assuming these plugins are on your 'runtimepath' and
-                      they have implemented health#foo#check() and
-                      health#bar#check(), respectively):
-                        `:checkhealth foo bar`
-
-`$ vim -V[N][file]`     Open vim in verbose mode and save logs to `[file]`
-                      Example:
-                        `$ vim -V9/tmp/myvim.log`
-
-`$ vim --noplugin`      Open vim loading vimrc file but disabling plugins
-
-`$ vim -u NONE`         Open vim disabling vimrc file and plugins
-
-`$ vim -R`              Open vim in readonly mode
-
-`$ tail -f ~/.cache/nvim/lsp.log`
-                        For LSP related issues
-
-`$ vim -b`              Open vim in binary mode (you can see all invisible chars in a text file for example)
-
-
-================================================================================
-REGISTERS                                                      *myhelp-registers*
-
-- `<c-r>a` paste the content of register `a` (insert and command mode)
-- `:let @/='Text'`  write `'Text'` to register `/` 
-- `"kyy` copy the current line to register `k` (normal mode)
-- `"Kyy` append the current line to register `k` - normal mode_
-
-
-================================================================================
-MOVING AROUND (NORMAL MODE)                                *myhelp-moving-around*
-
-Working with marks:
-  - `mx` set mark `x` at the current cursor position
-  - `'x` jump to the beginning of the line of mark `x`
-  - ``x` jump to the cursor position of mark `x`
-
-Searching:
-  - `*` search forward for the word under cursor (`g*` for non-exact word)
-  - `#` search backward for the word under cursor (`g#` for non-exact word)
-
-General moves:
-  - `e` move to the end of a word
-  - `w` move forward to the beginning of a word
-  - `3w` move forward three words
-  - `W` move forward a WORD (any non-whitespace characters)
-  - `b` move backward to the beginning of a word
-  - `3b` move backward three words
-  - `$` move to the end of the line
-  - `0` move to the beginning of the line
-  - `^` move to the first non-blank character of the line
-  - `)` jump forward one sentence
-  - `(` jump backward one sentence
-  - `}` jump forward one paragraph
-  - `{` jump backward one paragraph
-  - `H` jump to the top of the screen
-  - `M` jump to the middle of the screen
-  - `L` jump to the bottom of the screen
-  - `10<c-b>` move 10 pages up
-  - `10<c-d>` move 10 pages down
-  - `5<c-f>` move 5 pages down
-  - `gg` jump to beginning of file
-  - `G` jump to end of file
-  - `50G` jump to line 50
-  - `%` jump to corresponding item, e.g. from an open brace to its matching closing brace
-  - `'.` jump to the last-changed line
-  - `''` return to the line where the cursor was before the latest jump
-  -` ``` return to the cursor position before the latest jump (two backticks)
-
-
-================================================================================
-VIMDIFF MODE                                                   *myhelp-diff-mode*
-
-To do a diff between two buffers first split the window into two and put each
-buffer in one of them. Execute `:diffthis` in each buffer
-
-To do a diff between a buffer and a file, with the buffer in a window open the
-file using `:diffsplit` {path}. Go back to the buffer window and execute
-`:diffthis`
-
-Move between changes:
-  - `[c` jump backwards to the previous change
-  - `]c` jump forward to the next change
-
-
-================================================================================
-EDITING                                                          *myhelp-editing*
-
-- `:3,15move 40` move the content of lines 3 through 15 to bellow line 40 (command mode)
-- `:3,15copy 40` _Copy the content of lines 3 through 15 to bellow line 40 (command mode)
-- `/` or `:` then `<c-r><c-w>` copy word under cursor to command line (normal mode)
-- `@:` repeat the last command entered with `:`. Further repeats can be done with `@@` 
+Config vim mode. Accessible via `<c-b> [`:
+`set-window-option -g mode-keys vi`
 
 
 
+[WORK IN PROGRESS]
 # tmux shortcuts & cheatsheet
 
 start new:
@@ -387,3 +212,4 @@ We Noticed that our Cheatsheet is growing and people are coloberating to add new
 
 * Twitter: [@MohammedAlaa](http://twitter.com/MohammedAlaa)
 
+vim:tw=78:ts=8:ft=help:norl:

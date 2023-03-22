@@ -1,6 +1,6 @@
 *mh-binutils*
 
-Useful cookbook to get information from binary files
+MyHelp: Useful cookbook to get information from binary files
 
 Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
 
@@ -26,5 +26,8 @@ Disassemble all sections
 
 Display all available header information, including the symbol table and relocation entries
 `$ objdump --all-headers lib.so`
+
+Display the symbol table and the dynamic symbol table
+`$ objdump -tT lib.so`
 
 vim:tw=78:ts=8:ft=help:norl:

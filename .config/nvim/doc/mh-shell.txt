@@ -10,6 +10,8 @@ CONTENTS                                                      *mh-shell-contents
   CONTROL OPERATORS ......................................... |mh-shell-control|
   REDIRECTION OPERATORS ..................................... |mh-shell-redirect|
   COMMANDS .................................................. |mh-shell-commands|
+  TEXT PROCESSING ........................................... |mh-shell-text|
+  SYSTEM INFO ............................................... |mh-shell-system|
 
 
 ================================================================================
@@ -92,4 +94,51 @@ COMMANDS                                                      *mh-shell-commands
 * Edit command in $EDITOR then return to shell:
     In zsh with oh-my-zsh installed: c-x + c-e
 
-vim:tw=78:ts=8:ft=help:norl:
+
+================================================================================
+TEXT PROCESSING                                                   *mh-shell-text*
+
+Exclude matching lines from 2 files. Useful when you have a big diff to handle
+and just want to focus on the lines that differ
+
+  `awk '{if (f==1) { r[$0] } else if (! ($0 in r)) { print $0 } } ' f=1 exclude-these.txt f=2 from-this.txt`.
+
+
+================================================================================
+SYSTEM INFO                                                     *mh-shell-system*
+
+
+--------------------------------------------------------------------------------
+Calculate CPU usage for a specific process. You'll need the following:
+>
+ /proc/uptime
+     1. uptime of the system in seconds
+ /proc/[PID]/stat
+     14. utime - CPU time spent in user code
+     15. stime - CPU time spent in kernel code
+     16. cutime - Waited-for children's CPU time spent in user code
+     17. cstime - Waited-for children's CPU time spent in kernel code
+     22. starttime - Time when the process started
+>
+     All measures above are in clock ticks
+ Hertz - Clock ticks per second, getconf CLK_TCK
+<
+
+First we determine the total time spent for the process
+`    total_time = utime + stime`
+
+We also have to decide whether we want to include the time from children
+processes. If we do, then we add those values to `total_time`:
+`    total_time = total_time + cutime + cstime`
+
+Next we get the total elapsed time in seconds since the process started:
+`    seconds = uptime - (starttime / Hertz)`
+
+Finally we calculate the CPU usage percentage:
+`    cpu_usage = 100 * ((total_time / Hertz) / seconds)`
+
+Source: https://stackoverflow.com/questions/16726779/how-do-i-get-the-total-cpu-usage-of-an-application-from-proc-pid-stat
+
+
+
+vim:tw=80:ts=8:ft=help:norl:
