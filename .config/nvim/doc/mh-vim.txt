@@ -1,26 +1,26 @@
-*myhelp.txt*
+*mh-vim.txt*
 
-A help to help me get some help every time I'm helpless.
+A help to help me get some help every time I'm helpless in Vim.
 
 Note: run `:helptags ~/.config/nvim/doc/` to generate tags for this help.
 
 
 ================================================================================
-CONTENTS                                                        *myhelp-contents*
+CONTENTS                                                        *mh-vim-contents*
 
-  HELP ....................................... |myhelp-help|
-  MAPPINGS ................................... |myhelp-mappings|
-  SETTINGS ................................... |myhelp-settings|
-  TERMINAL MODE .............................. |myhelp-terminal-mode|
-  DEBUGGING VIM ISSUES ....................... |myhelp-debugging-vim-issues|
-  REGISTERS .................................. |myhelp-registers|
-  MOVING AROUND (NORMAL MODE) ................ |myhelp-moving-around|
-  VIMDIFF MODE ............................... |myhelp-diff-mode|
-  EDITING .................................... |myhelp-editing|
+  HELP ....................................... |mh-vim-help|
+  MAPPINGS ................................... |mh-vim-mappings|
+  SETTINGS ................................... |mh-vim-settings|
+  TERMINAL MODE .............................. |mh-vim-terminal-mode|
+  DEBUGGING VIM ISSUES ....................... |mh-vim-debugging-vim-issues|
+  REGISTERS .................................. |mh-vim-registers|
+  MOVING AROUND (NORMAL MODE) ................ |mh-vim-moving-around|
+  VIMDIFF MODE ............................... |mh-vim-diff-mode|
+  EDITING .................................... |mh-vim-editing|
 
 
 ================================================================================
-HELP                                                                *myhelp-help*
+HELP                                                                *mh-vim-help*
 
 Type `:help` in command mode to access the help of `help` command
 
@@ -40,7 +40,7 @@ example, to see all help topics containing `ctrl-r`, type `:h ctrl-r` then press
 
 
 ================================================================================
-MAPPINGS                                                        *myhelp-mappings*
+MAPPINGS                                                        *mh-vim-mappings*
 
 If you want to check the mapped keys:
 
@@ -59,7 +59,7 @@ to redirect the output to a file:
 
 
 ================================================================================
-SETTINGS                                                        *myhelp-settings*
+SETTINGS                                                        *mh-vim-settings*
 
 Turn boolean settings off by adding a `no` as a prefix.
 Example: `set noexpandtab`
@@ -75,7 +75,7 @@ Example: `set tabstop=8`
 
 
 ================================================================================
-TERMINAL MODE                                              *myhelp-terminal-mode*
+TERMINAL MODE                                              *mh-vim-terminal-mode*
 
 To start a terminal in the current window `:terminal`. Then:
   - `i` to enter terminal mode
@@ -83,7 +83,7 @@ To start a terminal in the current window `:terminal`. Then:
 
 
 ================================================================================
-DEBUGGING VIM ISSUES                                *myhelp-debugging-vim-issues*
+DEBUGGING VIM ISSUES                                *mh-vim-debugging-vim-issues*
 
 `:messages`             View previously given messages. This is especially
                       useful when messages have been overwritten or truncated.
@@ -150,7 +150,7 @@ Note: Not all plugins implement the `g:loaded_<plugin_name>`
 
 
 ================================================================================
-REGISTERS                                                      *myhelp-registers*
+REGISTERS                                                      *mh-vim-registers*
 
 - `<c-r>a` paste the content of register `a` (insert and command mode)
 - `:let @/='Text'`  write `'Text'` to register `/` 
@@ -159,7 +159,14 @@ REGISTERS                                                      *myhelp-registers
 
 
 ================================================================================
-MOVING AROUND (NORMAL MODE)                                *myhelp-moving-around*
+MOVING AROUND (NORMAL MODE)                                *mh-vim-moving-around*
+
+Navigating a help file
+
+    `c-]` goes to the help tag under cursor
+    `c-t` or `c-o` goes back to the previous location
+    `c-i` go forward
+
 
 Working with marks:
   - `mx` set mark `x` at the current cursor position
@@ -200,7 +207,7 @@ General moves:
 
 
 ================================================================================
-VIMDIFF MODE                                                   *myhelp-diff-mode*
+VIMDIFF MODE                                                   *mh-vim-diff-mode*
 
 To do a diff between two buffers first split the window into two and put each
 buffer in one of them. Execute `:diffthis` in each buffer
@@ -215,7 +222,7 @@ Move between changes:
 
 
 ================================================================================
-EDITING                                                          *myhelp-editing*
+EDITING                                                          *mh-vim-editing*
 
 - `:3,15move 40` move the content of lines 3 through 15 to bellow line 40 (command mode)
 - `:3,15copy 40` _Copy the content of lines 3 through 15 to bellow line 40 (command mode)
