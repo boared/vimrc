@@ -168,14 +168,39 @@ Navigating a help file
     `c-i` go forward
 
 
+Navigating the text
+
+    Horizontally:
+        `w` jump to the beginning of a word
+        `e` jump to the end of a word
+        `b` jump to the beginning of a word backwards
+        `ge` jump to the end of a word backwards
+        `f{character}` find the next `{character}`
+        `F{character}` find the previous `{character}`
+        `0` moves to the first character of a line
+        `^` moves to the first non-blank character of a line
+        `$` moves to the end of a line
+        `g_` moves to the non-blank character at the end of the line
+
+    Vertically:
+        `}` move one paragraph downwards
+        `{` move one paragraph upwards
+        `c-d` moves down half a page
+        `c-b` moves up half a page
+        `c-e` moves up one line but keep the cursor where it is
+        `c-y` moves down one line but keep the cursor where it is
+
+
 Working with marks:
   - `mx` set mark `x` at the current cursor position
   - `'x` jump to the beginning of the line of mark `x`
   - ``x` jump to the cursor position of mark `x`
 
+
 Searching:
   - `*` search forward for the word under cursor (`g*` for non-exact word)
   - `#` search backward for the word under cursor (`g#` for non-exact word)
+
 
 General moves:
   - `e` move to the end of a word
