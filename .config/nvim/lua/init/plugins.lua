@@ -280,6 +280,9 @@ ts_configs.setup {
   -- Leverage treesitter for syntax highlighting
   highlight = {
     enable = true, -- false will disable the whole extension
+    disable = function(lang, bufnr)
+        return vim.api.nvim_buf_line_count(bufnr) > 50000 -- disable hightlight for large files
+    end,
   },
 
   -- Increment selection of block of code
