@@ -38,6 +38,8 @@ example, to see all help topics containing `ctrl-r`, type `:h ctrl-r` then press
 `:set list` will show hidden characters
 `:set listchars?` shows what chars to show, when `list` is set, for each hidden char (like `\n`, tab, etc.)
 
+`:verbose map <C-K>`    Shows the map for a key binding (in this case, <C-K>) as
+                      well as where it was last set
 
 ================================================================================
 MAPPINGS                                                        *mh-vim-mappings*

@@ -20,6 +20,9 @@ require('init.plugins')
 require('init.lsp')
 require('init.colors')
 
+-- Work related stuff
+require('init.work')
+
 -- TODO: Gradually move these vimrcs to ~/.config/nvim/lua/init/*.lua
 -- Consider replacing $HOME/.config/ by stdpath("config")
 vim.cmd([[

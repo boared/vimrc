@@ -18,7 +18,7 @@ let maplocalleader = "\\"
 nnoremap <leader>tt :NvimTreeToggle<cr>
 
 " Focus on browser tree
-nnoremap <leader>tf :NvimTreeFocus<cr>
+nnoremap <leader>tf :NvimTreeFindFile<cr>
 
 
 
