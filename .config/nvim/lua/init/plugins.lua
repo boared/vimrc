@@ -61,6 +61,9 @@ vim.cmd([[
        "EXPERIMENTATIONS"
   "========================="
 
+  " A multi-language debugging plugin for Vim
+  Plug 'puremourning/vimspector'
+
   " Extensions for nvim-lsp for eclipse.jdt.ls
   Plug 'mfussenegger/nvim-jdtls'
 

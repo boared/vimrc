@@ -20,6 +20,15 @@ nnoremap <leader>tt :NvimTreeToggle<cr>
 " Focus on browser tree
 nnoremap <leader>tf :NvimTreeFindFile<cr>
 
+" Vimspector mappgins
+" neovim doesn't implement mouse hover balloons. Instead there is the <Plug>VimspectorBalloonEval mapping.
+" There is no default mapping for this, so I recommend something like this to get variable display in a popup.
+" mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
+" for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval
+
 
 
 """""""""""""""""""""""""""
