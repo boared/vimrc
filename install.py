@@ -16,4 +16,3 @@ if __name__ == '__main__':
         print(f"Path '{config}' already exist. Aborting.")
     else:
         print(f"Created symlink '{config}'")
-

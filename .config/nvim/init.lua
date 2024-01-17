@@ -13,21 +13,13 @@ vim.opt.runtimepath:append(home .. [[/.vim/after]])
 vim.opt.packpath = vim.opt.runtimepath:get()
 
 -- Set up Python (run :checkhealth command if Python fails to load)
-vim.g.python_host_prog = home .. [[/opt/miniconda3/envs/py27/bin/python2]]
-vim.g.python3_host_prog = home .. [[/opt/miniconda3/bin/python3]]
+vim.g.python_host_prog = home .. [[/miniconda3/envs/py27/bin/python2]]
+vim.g.python3_host_prog = home .. [[/miniconda3/bin/python3]]
 
-require('init.plugins')
-require('init.lsp')
-require('init.colors')
+require("init.remap")
+require("init.plugins")
+require("init.set")
 
 -- Work related stuff
-require('init.work')
+--require('init.work')
 
--- TODO: Gradually move these vimrcs to ~/.config/nvim/lua/init/*.lua
--- Consider replacing $HOME/.config/ by stdpath("config")
-vim.cmd([[
-  source $HOME/.config/nvim/configs.vimrc
-  source $HOME/.config/nvim/mappings.vimrc
-  source $HOME/.config/nvim/lab.vimrc
-  source $HOME/.config/nvim/autocmd.vimrc
-]])
