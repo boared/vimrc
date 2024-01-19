@@ -41,17 +41,20 @@ require("lazy").setup({
     "hrsh7th/nvim-cmp",
     "L3MON4D3/LuaSnip",
 
+    -- ThePrimeagen
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
         dependencies = { "nvim-lua/plenary.nvim" }
     },
 
+    -- Undotree
     "mbbill/undotree",
 
-    {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' }
-    }
-}, nil)
+    -- Lualine
+    { 'nvim-lualine/lualine.nvim', dependencies = { "nvim-tree/nvim-web-devicons" } },
 
+    -- DAP
+    "mfussenegger/nvim-dap",
+    { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+}, {})
