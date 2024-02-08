@@ -12,3 +12,13 @@ vim.keymap.set("n", "<leader>tg",
         ts_builtin.live_grep({ type_filter = tf })
     end, {})
 vim.keymap.set("n", "<leader>ls", ts_builtin.buffers, {})
+
+ts.setup {
+    extensions = {
+        file_browser = {
+            hidden = { file_browser = true, folder_browser = true },
+        },
+    },
+}
+
+ts.load_extension "file_browser"
