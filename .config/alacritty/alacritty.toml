@@ -1,0 +1,27 @@
+################################################################################
+#                      Alacritty TOML configuration file                       #
+#                                                                              #
+# Documentation for this configuration file can be found in `man 5 alacritty`  #
+################################################################################
+
+shell = "/usr/bin/zsh"
+live_config_reload = true
+
+[window]
+opacity = 0.98
+decorations_theme_variant = "Dark"
+
+[font]
+normal = { family = "Hack Nerd Font Mono", style = "Regular" }
+size = 12.0
+
+[selection]
+save_to_clipboard = true
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
+blink_timeout = 0
+
+[mouse]
+hide_when_typing = true
