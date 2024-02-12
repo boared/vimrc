@@ -4,7 +4,7 @@
 # Documentation for this configuration file can be found in `man 5 alacritty`  #
 ################################################################################
 
-shell = "/usr/bin/zsh"
+shell = "/bin/zsh"
 live_config_reload = true
 
 [window]
