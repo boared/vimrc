@@ -28,9 +28,16 @@ vim.keymap.set("n", "<leader>vs", ":vsplit<cr>")
 vim.keymap.set("n", "<esc>", ":noh<cr><esc>")
 
 --Yank to clipboard instead of "0
-vim.keymap.set("v", "<leader>y", "\"*y:echo \"Yanked to \\\"* register\"<cr>")
+vim.keymap.set("x", "<leader>y", "\"*y:echo \"Yanked to \\\"* register\"<cr>")
 vim.keymap.set("n", "<leader>yy", "\"*yy:echo \"Yanked to \\\"* register\"<cr>")
 
 -- Copy the content of yanked/deleted text to clipboard
 vim.keymap.set("n", "<leader>cy", ":let @*=@<cr>:echo \"Yanked text copied to clipboard\"<cr>")
 
+-- Next search always shown in the middle of the screen
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
+
+-- Half-page scroll down/up keeps the cursor at the middle of the screen
+vim.keymap.set("n", "<c-u>", "<c-u>zz")
+vim.keymap.set("n", "<c-d>", "<c-d>zz")
