@@ -8,7 +8,7 @@ shell = "/bin/zsh"
 live_config_reload = true
 
 [window]
-opacity = 0.98
+opacity = 0.95
 decorations_theme_variant = "Dark"
 
 [font]
