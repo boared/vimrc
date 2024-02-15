@@ -1,4 +1,4 @@
-local dap = require('dap')
+local dap = require("dap")
 require("dapui").setup()
 
 -- C++ and Rust DAP
