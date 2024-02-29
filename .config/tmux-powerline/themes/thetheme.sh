@@ -84,7 +84,7 @@ if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 		#"ifstat_sys 30 255" \
 		"lan_ip 235 136 ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}" \
 		"wan_ip 235 136" \
-		"vcs_branch 235 136" \
+		#"vcs_branch 235 136" \
 		#"vcs_compare 235 136" \
 		#"vcs_staged 235 136" \
 		#"vcs_modified 235 136" \
