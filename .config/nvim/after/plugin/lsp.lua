@@ -48,5 +48,7 @@ cmp.setup({
     ["<tab>"] = cmp.mapping.select_next_item(cmp_select),
     ["<enter>"] = cmp.mapping.confirm({ select = true }),
     ["<c-space>"] = cmp.mapping.complete(),
+    ["<c-k>"] = cmp.mapping.scroll_docs(-4),
+    ["<c-j>"] = cmp.mapping.scroll_docs(4),
   }),
 })
