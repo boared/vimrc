@@ -5,29 +5,42 @@
 -- Customized rc.lua for https://github.com/lcpz/awesome-copycats
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
+--                                LOAD MODULES
+--------------------------------------------------------------------------------
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
-require("awful.autofocus")
-require("awful.hotkeys_popup.keys")
 
+-- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+require("awful.autofocus")
+
+-- Enable hotkeys help widget for VIM and other apps
+-- when client with a matching name is opened:
+require("awful.hotkeys_popup.keys")
+
+-- Widget and layout library
 local wibox = require("wibox")
+
+-- Theme handling library
 local beautiful = require("beautiful")
+
+-- Notification library
 local naughty = require("naughty")
+
+--local menubar = require("menubar")
+local hotkeys_popup = require("awful.hotkeys_popup")
+
 local lain = require("lain")
 local freedesktop = require("freedesktop")
-local hotkeys_popup = require("awful.hotkeys_popup")
---local menubar = require("menubar")
 
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 
 --------------------------------------------------------------------------------
---
---                               Error handling
---
+--                               ERROR HANDLING
 --------------------------------------------------------------------------------
 
 -- Check if awesome encountered an error during startup and fell back to
@@ -60,10 +73,9 @@ do
 end
 
 
+
 --------------------------------------------------------------------------------
---
---                       Autostart windowless processes
---
+--                       AUTOSTART WINDOWLESS PROCESSES
 --------------------------------------------------------------------------------
 
 -- This function will run once every time Awesome is started
@@ -73,7 +85,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "urxvtd", "unclutter -root" }) -- comma-separated entries
+run_once({ "urxvtd", "unclutter -root", "clipcatd" }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
 --[[
@@ -93,7 +105,7 @@ awful.spawn.with_shell(
 --
 --------------------------------------------------------------------------------
 
-local themes = {
+local themes                           = {
     "blackburn",       -- 1
     "copland",         -- 2
     "dremora",         -- 3
@@ -106,31 +118,31 @@ local themes = {
     "vertex"           -- 10
 }
 
-local chosen_theme = themes[2]
-local modkey = "Mod4"
-local altkey = "Mod1"
-local terminal = "alacritty"
-local vi_focus = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
-local cycle_prev = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
-local editor = os.getenv("EDITOR") or "nvim"
-local browser = "firefox"
+local chosen_theme                     = themes[2]
+local modkey                           = "Mod4"
+local altkey                           = "Mod1"
+local terminal                         = "alacritty"
+local vi_focus                         = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
+local cycle_prev                       = true -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
+local editor                           = os.getenv("EDITOR") or "nvim"
+local browser                          = "firefox"
 
-awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5" }
-awful.layout.layouts = {
+awful.util.terminal                    = terminal
+awful.util.tagnames                    = { "1", "2", "3", "4", "5" }
+awful.layout.layouts                   = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
-    --awful.layout.suit.corner.nw,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.corner.nw,
     --awful.layout.suit.corner.ne,
     --awful.layout.suit.corner.sw,
     --awful.layout.suit.corner.se,
@@ -152,7 +164,7 @@ lain.layout.cascade.tile.extra_padding = 5
 lain.layout.cascade.tile.nmaster       = 5
 lain.layout.cascade.tile.ncol          = 2
 
-awful.util.taglist_buttons = mytable.join(
+awful.util.taglist_buttons             = mytable.join(
     awful.button({}, 1, function(t) t:view_only() end),
     awful.button({ modkey }, 1, function(t)
         if client.focus then client.focus:move_to_tag(t) end
@@ -165,7 +177,7 @@ awful.util.taglist_buttons = mytable.join(
     awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
-awful.util.tasklist_buttons = mytable.join(
+awful.util.tasklist_buttons            = mytable.join(
     awful.button({}, 1, function(c)
         if c == client.focus then
             c.minimized = true
@@ -191,7 +203,7 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 
 -- Create a launcher widget and a main menu
 local myawesomemenu = {
-    { "Hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+    { "Hotkeys",     function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
     { "Manual",      string.format("%s -e man awesome", terminal) },
     { "Edit config", string.format("%s -e %s %s", terminal, editor, awesome.conffile) },
     { "Restart",     awesome.restart },
@@ -287,7 +299,7 @@ root.buttons(mytable.join(
 --------------------------------------------------------------------------------
 
 globalkeys = mytable.join(
-    -- Destroy all notifications
+-- Destroy all notifications
     awful.key({ "Control", }, "space", function() naughty.destroy_all_notifications() end,
         { description = "destroy all notifications", group = "hotkeys" }),
     -- Take a screenshot
@@ -862,4 +874,3 @@ client.connect_signal("property::minimized", backham)
 client.connect_signal("unmanage", backham)
 -- ensure there is always a selected client during tag switching or logins
 tag.connect_signal("property::selected", backham)
-
