@@ -28,11 +28,11 @@ vim.keymap.set("n", "<leader>vs", ":vsplit<cr>")
 vim.keymap.set("n", "<esc>", ":noh<cr><esc>")
 
 --Yank to clipboard instead of "0
-vim.keymap.set("x", "<leader>y", "\"*y:echo \"Yanked to \\\"* register\"<cr>")
-vim.keymap.set("n", "<leader>yy", "\"*yy:echo \"Yanked to \\\"* register\"<cr>")
+vim.keymap.set("x", "<leader>y", "\"+y:echo \"Yanked to \\\"+ register\"<cr>")
+vim.keymap.set("n", "<leader>yy", "\"+yy:echo \"Yanked to \\\"+ register\"<cr>")
 
 -- Copy the content of yanked/deleted text to clipboard
-vim.keymap.set("n", "<leader>cy", ":let @*=@<cr>:echo \"Yanked text copied to clipboard\"<cr>")
+vim.keymap.set("n", "<leader>cy", ":let @+=@<cr>:echo \"Yanked text copied to clipboard\"<cr>")
 
 -- Next search always shown in the middle of the screen
 vim.keymap.set("n", "n", "nzz")
