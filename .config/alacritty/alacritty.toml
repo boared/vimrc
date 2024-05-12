@@ -13,7 +13,7 @@ decorations_theme_variant = "Dark"
 
 [font]
 normal = { family = "Hack Nerd Font Mono", style = "Regular" }
-size = 12.0
+size = 10.0
 
 [selection]
 save_to_clipboard = true
