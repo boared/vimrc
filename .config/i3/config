@@ -1,0 +1,58 @@
+# i3 config file based off https://github.com/k-vernooy/dotfiles
+
+include ~/.config/i3/keymap.config
+
+# Set mod variable to super key
+set $mod Mod4
+
+# Make sure fonts are loaded right
+exec_always xset +fp ~/.fonts/
+exec_always xset fp rehash
+
+# Turn borders off
+for_window [class="^.*"] border pixel 0
+
+# Change gap size
+gaps outer -20
+gaps inner 24
+#gaps left 220
+gaps top 37
+gaps bottom -20
+
+# Run startup wallpaper
+exec_always bash -c "feh --bg-fill ~/Images/wallpapers/retrospace.png"
+
+# Startup daemons for compositor and status bar
+exec_always --no-startup-id pkill picom; picom --no-use-damage
+exec_always --no-startup-id pkill dunst; dunst
+
+# Startup clipcat daemon
+exec_always --no-startup-id pkill clipcatd; clipcatd
+bindsym $mod+Shift+v exec clipcat-menu
+
+#######################################
+##                ROFI               ##
+#######################################
+set $rofi ~/.config/i3/scripts/rofi/launch.sh
+
+# Start rofi with appmenu and tabmenu
+bindsym $mod+space exec $rofi appmenu
+bindsym $mod+Tab exec $rofi tabmenu
+bindsym $mod+Shift+e exec $rofi powermenu
+
+#######################################
+##              POLYBAR              ##
+#######################################
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+##################################################################################
+##                                  ORIGINAL
+##################################################################################
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
