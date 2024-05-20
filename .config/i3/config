@@ -27,7 +27,7 @@ exec_always --no-startup-id pkill picom; picom --no-use-damage
 exec_always --no-startup-id pkill dunst; dunst
 
 # Startup clipcat daemon
-exec_always --no-startup-id pkill clipcatd; clipcatd
+exec_always --no-startup-id clipcatd -r
 bindsym $mod+Shift+v exec clipcat-menu
 
 #######################################
