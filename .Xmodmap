@@ -1,0 +1,10 @@
+! Caps Lock as Ctrl and Ctrl as Caps Lock
+clear lock
+clear control
+keycode 66 = Control_L
+add control = Control_L Control_R
+keycode 37 = Caps_Lock
+keycode 105 = Caps_Lock
+
+! Reverse scrolling (natural scrolling)
+pointer = 1 2 3 5 4 6 7
