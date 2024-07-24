@@ -1,5 +1,6 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
 
 -- Indentation options
 vim.opt.tabstop = 4 -- Number of columns (whitespaces) that a <Tab> char in the file counts for

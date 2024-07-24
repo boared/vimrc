@@ -41,3 +41,7 @@ vim.keymap.set("n", "N", "Nzz")
 -- Half-page scroll down/up keeps the cursor at the middle of the screen
 vim.keymap.set("n", "<c-u>", "<c-u>zz")
 vim.keymap.set("n", "<c-d>", "<c-d>zz")
+
+-- Maximixe/minimize window
+vim.keymap.set("n", "<leader>M", "<c-w>|<c-w>_")
+vim.keymap.set("n", "<leader>m", "<c-w>=")
